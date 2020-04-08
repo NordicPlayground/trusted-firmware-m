@@ -495,10 +495,14 @@ function(set_up_secure_fw_build)
 
 	install(FILES ${MY_BINARY_DIR}/${EXE_NAME}.axf
 				  ${MY_BINARY_DIR}/${EXE_NAME}.bin
+				  ${MY_BINARY_DIR}/${EXE_NAME}.hex
+				  ${MY_BINARY_DIR}/${EXE_NAME}.elf
 			DESTINATION outputs/${TARGET_PLATFORM}/)
 
 	install(FILES ${MY_BINARY_DIR}/${EXE_NAME}.axf
 				  ${MY_BINARY_DIR}/${EXE_NAME}.bin
+				  ${MY_BINARY_DIR}/${EXE_NAME}.hex
+				  ${MY_BINARY_DIR}/${EXE_NAME}.elf
 			DESTINATION outputs/fvp/)
 endfunction()
 
