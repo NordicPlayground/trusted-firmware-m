@@ -12,7 +12,7 @@ include("Common/CpuM33")
 
 set(NRF5340_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-include("${NRF5340_DIR}/../common/common.cmake")
+include("${NRF5340_DIR}/../common/nrf_common.cmake")
 add_definitions(-DNRF5340_XXAA_APPLICATION)
 
 if(NOT DEFINED BUILD_CMSIS_CORE)
