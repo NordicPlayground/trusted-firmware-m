@@ -16,11 +16,11 @@
  */
 
 #include "target_cfg.h"
-#include "Driver_Common.h"
 #include "region_defs.h"
 #include "tfm_plat_defs.h"
 #include "region.h"
 
+#include <spu.h>
 #include <nrfx.h>
 
 
@@ -185,5 +185,7 @@ int32_t spu_init_cfg(void)
     spu_regions_flash_config_non_secure(memory_regions.secondary_partition_base,
         memory_regions.secondary_partition_limit);
 #endif /* BL2 */
+
+    return ARM_DRIVER_OK;
 }
 
