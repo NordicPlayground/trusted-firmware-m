@@ -34,6 +34,7 @@
 
 /* Size of nRF SPU (Nordic IDAU) regions */
 #define SPU_FLASH_REGION_SIZE   (0x00008000)
+#define SPU_SRAM_REGION_SIZE   (0x00002000)
 
 /* This size of buffer is big enough to store an attestation
  * token produced by initial attestation service
