@@ -151,3 +151,37 @@ void spu_regions_flash_config_non_secure_callable(uint32_t start_addr,
 		FLASH_NSC_REGION_FROM_ADDR(start_addr),
 		1 /* Lock */);
 }
+
+void spu_peripheral_config_secure(uint32_t periph_base_addr, bool periph_lock)
+{
+	/* Determine peripheral ID */
+	const uint8_t periph_id = NRFX_PERIPHERAL_ID_GET(periph_base_addr);
+
+	/* ASSERT checking that this is not an explicit Non-Secure peripheral */
+	NRFX_ASSERT((NRF_SPU->PERIPHID[periph_id].PERM &
+		SPU_PERIPHID_PERM_SECUREMAPPING_Msk) !=
+		(SPU_PERIPHID_PERM_SECUREMAPPING_NonSecure <<
+			SPU_PERIPHID_PERM_SECUREMAPPING_Pos));
+
+	nrf_spu_peripheral_set(NRF_SPU, periph_id,
+		1 /* Secure */,
+		1 /* Secure DMA */,
+		periph_lock);
+}
+
+void spu_peripheral_config_non_secure(uint32_t periph_base_addr, bool periph_lock)
+{
+	/* Determine peripheral ID */
+	const uint8_t periph_id = NRFX_PERIPHERAL_ID_GET(periph_base_addr);
+
+	/* ASSERT checking that this is not an explicit Secure peripheral */
+	NRFX_ASSERT((NRF_SPU->PERIPHID[periph_id].PERM &
+		SPU_PERIPHID_PERM_SECUREMAPPING_Msk) !=
+		(SPU_PERIPHID_PERM_SECUREMAPPING_Secure <<
+			SPU_PERIPHID_PERM_SECUREMAPPING_Pos));
+
+	nrf_spu_peripheral_set(NRF_SPU, periph_id,
+		0 /* Non-Secure */,
+		0 /* Non-Secure DMA */,
+		periph_lock);
+}
