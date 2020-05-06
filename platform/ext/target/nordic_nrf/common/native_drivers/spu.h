@@ -77,4 +77,58 @@ void spu_regions_sram_config_non_secure( uint32_t start_addr, uint32_t limit_add
  */
 void spu_regions_flash_config_non_secure_callable(uint32_t start_addr, uint32_t limit_addr);
 
+/**
+ * \brief Restrict access to peripheral to secure
+ *
+ *  Configure a device peripheral to be accessible from Secure domain only.
+ *
+ * \param periph_base_addr peripheral base address
+ *                         (must correspond to a valid peripheral ID)
+ * \param periph_lock Variable indicating whether to lock peripheral security
+ *
+ * \note
+ * - peripheral shall not be a Non-Secure only peripheral
+ * - DMA transactions are configured as Secure
+ */
+void spu_peripheral_config_secure(uint32_t periph_base_addr, bool periph_lock);
+
+/**
+ * Configure a device peripheral to be accessible from Non-Secure domain.
+ *
+ * \param periph_base_addr peripheral base address
+ *                         (must correspond to a valid peripheral ID)
+ * \param periph_lock Variable indicating whether to lock peripheral security
+ *
+ * \note
+ * - peripheral shall not be a Secure-only peripheral
+ * - DMA transactions are configured as Non-Secure
+ */
+void spu_peripheral_config_non_secure(u32_t periph_base_addr, bool periph_lock);
+
+/**
+ * Configure DPPI channels to be accessible from Non-Secure domain.
+ *
+ * \param dppi_lock Variable indicating whether to lock DPPI channel security
+ *
+ * \note all channels are configured as Non-Secure
+ */
+static inline void spu_dppi_config_non_secure(bool dppi_lock)
+{
+    nrf_spu_dppi_config_set(NRF_SPU, 0, 0x0, dppi_lock);
+}
+
+/**
+ * Configure GPIO pins to be accessible from Non-Secure domain.
+ *
+ * \param port_number GPIO Port number
+ * \param gpio_lock Variable indicating whether to lock GPIO port security
+ *
+ * \note all pins are configured as Non-Secure
+ */
+static inline void spu_gpio_config_non_secure(uint8_t port_number,
+    bool gpio_lock)
+{
+    nrf_spu_gpio_config_set(NRF_SPU, port_number, 0x0, gpio_lock);
+}
+
 #endif
