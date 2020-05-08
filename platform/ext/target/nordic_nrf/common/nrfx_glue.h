@@ -147,7 +147,7 @@ void nrfx_critical_section_exit(void);
  *
  * @param us_time Number of microseconds to wait.
  */
-#define NRFX_DELAY_US(us_time)  nrfx_coredep_us(us_time)
+#define NRFX_DELAY_US(us_time)  nrfx_coredep_delay_us(us_time)
 
 //------------------------------------------------------------------------------
 
