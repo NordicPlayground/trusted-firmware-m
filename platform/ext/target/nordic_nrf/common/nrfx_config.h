@@ -32,6 +32,24 @@
 #ifndef NRFX_CONFIG_H__
 #define NRFX_CONFIG_H__
 
+#include <RTE_Device.h>
+
+#if RTE_USART0 || RTE_USART1 || RTE_USART2 || RTE_USART3
+#define NRFX_UARTE_ENABLED 1
+#endif
+#if RTE_USART0
+#define NRFX_UARTE0_ENABLED 1
+#endif
+#if RTE_USART1
+#define NRFX_UARTE1_ENABLED 1
+#endif
+#if RTE_USART2
+#define NRFX_UARTE1_ENABLED 1
+#endif
+#if RTE_USART3
+#define NRFX_UARTE1_ENABLED 1
+#endif
+
 /*
  * For chips with TrustZone support, MDK provides CMSIS-Core peripheral
  * accessing symbols in two flavors, with secure and non-secure base address
