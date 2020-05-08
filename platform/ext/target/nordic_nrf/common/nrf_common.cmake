@@ -127,8 +127,8 @@ elseif(BUILD_CMSIS_DRIVERS)
   message(WARNING "BUILD_CMSIS_DRIVERS not implemented.")
   #list(APPEND ALL_SRC_C_S "${NRF_COMMON_DIR}/cmsis_drivers/Driver_MPC.c"
   #  "${NRF_COMMON_DIR}/cmsis_drivers/Driver_PPC.c")
-  #list(APPEND ALL_SRC_C "${NRF_COMMON_DIR}/cmsis_drivers/Driver_USART.c")
-  #embedded_include_directories(PATH "${NRF_COMMON_DIR}/cmsis_drivers" ABSOLUTE)
+  list(APPEND ALL_SRC_C "${NRF_COMMON_DIR}/cmsis_drivers/Driver_USART.c")
+  embedded_include_directories(PATH "${NRF_COMMON_DIR}/cmsis_drivers" ABSOLUTE)
   embedded_include_directories(PATH "${PLATFORM_DIR}/driver" ABSOLUTE)
 endif()
 
