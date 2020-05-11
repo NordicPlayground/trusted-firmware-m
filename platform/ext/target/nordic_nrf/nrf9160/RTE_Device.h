@@ -80,4 +80,9 @@
 //   </h> Pin Configuration
 // </e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART3]
 
+// <e> FLASH (Flash Memory) [Driver_FLASH0]
+// <i> Configuration settings for Driver_FLASH0 in component ::Drivers:FLASH
+#define   RTE_FLASH0                    1
+// </e> FLASH (Flash Memory) [Driver_FLASH0]
+
 #endif  /* __RTE_DEVICE_H */
