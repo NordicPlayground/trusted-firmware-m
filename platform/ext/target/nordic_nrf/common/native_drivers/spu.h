@@ -21,6 +21,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include <hal/nrf_spu.h>
+
+
 /**
  * \brief SPU interrupt enabling
  *
@@ -103,7 +106,7 @@ void spu_peripheral_config_secure(uint32_t periph_base_addr, bool periph_lock);
  * - peripheral shall not be a Secure-only peripheral
  * - DMA transactions are configured as Non-Secure
  */
-void spu_peripheral_config_non_secure(u32_t periph_base_addr, bool periph_lock);
+void spu_peripheral_config_non_secure(uint32_t periph_base_addr, bool periph_lock);
 
 /**
  * Configure DPPI channels to be accessible from Non-Secure domain.
