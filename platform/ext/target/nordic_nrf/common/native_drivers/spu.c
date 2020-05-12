@@ -15,7 +15,6 @@
  */
 
 #include "spu.h"
-#include <hal/nrf_spu.h>
 #include "region_defs.h"
 
 /* Platform-specific configuration */
