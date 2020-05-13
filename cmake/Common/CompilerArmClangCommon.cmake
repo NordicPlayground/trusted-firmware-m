@@ -184,13 +184,13 @@ function(compiler_merge_library)
 	target_sources(${_MY_PARAMS_DEST} PRIVATE ${_MY_PARAMS_LIBS})
 endfunction()
 
-function(compiler_generate_binary_output TARGET)
+function(compiler_generate_binary_output TARGET DIR)
 	add_custom_command(TARGET ${TARGET}
 		POST_BUILD
 		COMMAND
-		${CMAKE_ARMCCLANG_FROMELF} ARGS --bincombined --output=${PROJECT_BINARY_DIR}/${TARGET}.bin $<TARGET_FILE:${TARGET}>
+		${CMAKE_ARMCCLANG_FROMELF} ARGS --bincombined --output=${DIR}/${TARGET}.bin $<TARGET_FILE:${TARGET}>
 		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.bin)
+		${DIR}/${TARGET}.bin)
 endfunction()
 
 function(compiler_generate_hex_output TARGET)
