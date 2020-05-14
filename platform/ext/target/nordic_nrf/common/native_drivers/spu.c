@@ -62,6 +62,13 @@ void spu_enable_interrupts(void)
 		NRF_SPU_INT_PERIPHACCERR_MASK);
 }
 
+void spu_clear_events(void)
+{
+	nrf_spu_event_clear(NRF_SPU, NRF_SPU_EVENT_RAMACCERR);
+	nrf_spu_event_clear(NRF_SPU, NRF_SPU_EVENT_FLASHACCERR);
+	nrf_spu_event_clear(NRF_SPU, NRF_SPU_EVENT_PERIPHACCERR);
+}
+
 void spu_regions_reset_all_secure(void)
 {
 	for (size_t i = 0; i < NUM_FLASH_SECURE_ATTRIBUTION_REGIONS ; i++) {

@@ -33,6 +33,13 @@
 void spu_enable_interrupts(void);
 
 /**
+ * \brief SPU event clearing
+ *
+ * Clear SPU event registers
+ */
+void spu_clear_events(void);
+
+/**
  * \brief Reset all memory regions to being Secure
  *
  * Reset all (Flash or SRAM) memory regions to being Secure
