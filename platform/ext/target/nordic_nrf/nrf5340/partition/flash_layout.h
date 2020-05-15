@@ -67,7 +67,7 @@
 /* Flash layout info for BL2 bootloader */
 #define FLASH_BASE_ADDRESS                  (0x00000000)
 
-#ifdef BL2
+
 /* Offset and size definitions of the flash partitions that are handled by the
  * bootloader. The image swapping is done between IMAGE_PRIMARY and
  * IMAGE_SECONDARY, SCRATCH is used as a temporary storage during image
@@ -133,15 +133,6 @@
  */
 #define MCUBOOT_STATUS_MAX_ENTRIES      (0)
 
-#else
-
-/* Secure + Non-secure image primary slot */
-#define FLASH_AREA_0_ID            (1)
-#define FLASH_AREA_0_OFFSET        (0x0)
-#define FLASH_AREA_0_SIZE          (FLASH_S_PARTITION_SIZE + \
-                                    FLASH_NS_PARTITION_SIZE)
-
-#endif /* BL2 */
 
 #define FLASH_SST_AREA_OFFSET           (FLASH_AREA_SCRATCH_OFFSET + \
                                          FLASH_AREA_SCRATCH_SIZE)
