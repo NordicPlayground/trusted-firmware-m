@@ -193,22 +193,22 @@ function(compiler_generate_binary_output TARGET DIR)
 		${DIR}/${TARGET}.bin)
 endfunction()
 
-function(compiler_generate_hex_output TARGET)
+function(compiler_generate_hex_output TARGET DIR)
 	add_custom_command(TARGET ${TARGET}
 		POST_BUILD
 		COMMAND
-		${CMAKE_ARMCCLANG_FROMELF} ARGS --i32combined --output=${PROJECT_BINARY_DIR}/${TARGET}.hex $<TARGET_FILE:${TARGET}>
+		${CMAKE_ARMCCLANG_FROMELF} ARGS --i32combined --output=${DIR}/${TARGET}.hex $<TARGET_FILE:${TARGET}>
 		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.hex)
+		${DIR}/${TARGET}.hex)
 endfunction()
 
-function(compiler_generate_elf_output TARGET)
+function(compiler_generate_elf_output TARGET DIR)
 	add_custom_command(TARGET ${TARGET}
 		POST_BUILD
 		COMMAND
-		${CMAKE_ARMCCLANG_FROMELF} ARGS --elf --output=${PROJECT_BINARY_DIR}/${TARGET}.elf $<TARGET_FILE:${TARGET}>
+		${CMAKE_ARMCCLANG_FROMELF} ARGS --elf --output=${DIR}/${TARGET}.elf $<TARGET_FILE:${TARGET}>
 		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.elf)
+		${DIR}/${TARGET}.elf)
 endfunction()
 
 # Function for creating a new target that preprocesses a .c file
