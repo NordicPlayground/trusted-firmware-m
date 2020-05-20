@@ -23,7 +23,7 @@
 // <e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART0]
 // <i> Configuration settings for Driver_USART0 in component ::Drivers:USART
 #define   RTE_USART0                    1
-//   <h> Pin Selection
+//   <h> Pin Selection (0xFFFFFFFF means Disconnected)
 //     <o> TXD
 #define   RTE_USART0_TXD_PIN            20
 //     <o> RXD
@@ -37,46 +37,46 @@
 
 // <e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART1]
 // <i> Configuration settings for Driver_USART1 in component ::Drivers:USART
-#define   RTE_USART1                    0
-//   <h> Pin Selection
+#define   RTE_USART1                    1
+//   <h> Pin Selection (0xFFFFFFFF means Disconnected)
 //     <o> TXD
-#define   RTE_USART1_TXD_PIN            0
+#define   RTE_USART1_TXD_PIN            25
 //     <o> RXD
-#define   RTE_USART1_RXD_PIN            0
+#define   RTE_USART1_RXD_PIN            26
 //     <o> RTS
-#define   RTE_USART1_RTS_PIN            0
+#define   RTE_USART1_RTS_PIN            0xFFFFFFFF
 //     <o> CTS
-#define   RTE_USART1_CTS_PIN            0
+#define   RTE_USART1_CTS_PIN            0xFFFFFFFF
 //   </h> Pin Configuration
 // </e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART1]
 
 // <e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART2]
 // <i> Configuration settings for Driver_USART2 in component ::Drivers:USART
 #define   RTE_USART2                    0
-//   <h> Pin Selection
+//   <h> Pin Selection (0xFFFFFFFF means Disconnected)
 //     <o> TXD
-#define   RTE_USART2_TXD_PIN            0
+#define   RTE_USART2_TXD_PIN            0xFFFFFFFF
 //     <o> RXD
-#define   RTE_USART2_RXD_PIN            0
+#define   RTE_USART2_RXD_PIN            0xFFFFFFFF
 //     <o> RTS
-#define   RTE_USART2_RTS_PIN            0
+#define   RTE_USART2_RTS_PIN            0xFFFFFFFF
 //     <o> CTS
-#define   RTE_USART2_CTS_PIN            0
+#define   RTE_USART2_CTS_PIN            0xFFFFFFFF
 //   </h> Pin Configuration
 // </e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART2]
 
 // <e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART3]
 // <i> Configuration settings for Driver_USART3 in component ::Drivers:USART
 #define   RTE_USART3                    0
-//   <h> Pin Selection
+//   <h> Pin Selection (0xFFFFFFFF means Disconnected)
 //     <o> TXD
-#define   RTE_USART3_TXD_PIN            0
+#define   RTE_USART3_TXD_PIN            0xFFFFFFFF
 //     <o> RXD
-#define   RTE_USART3_RXD_PIN            0
+#define   RTE_USART3_RXD_PIN            0xFFFFFFFF
 //     <o> RTS
-#define   RTE_USART3_RTS_PIN            0
+#define   RTE_USART3_RTS_PIN            0xFFFFFFFF
 //     <o> CTS
-#define   RTE_USART3_RTS_PIN            0
+#define   RTE_USART3_RTS_PIN            0xFFFFFFFF
 //   </h> Pin Configuration
 // </e> USART (Universal synchronous - asynchronous receiver transmitter) [Driver_USART3]
 
