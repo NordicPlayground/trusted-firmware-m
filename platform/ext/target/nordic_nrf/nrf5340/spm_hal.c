@@ -17,11 +17,25 @@
 #include "mpu_armv8m_drv.h"
 #include "region_defs.h"
 #include "secure_utilities.h"
+#include "region.h"
 
 /* Get address of memory regions to configure MPU */
 extern const struct memory_region_limits memory_regions;
 
+#if defined(CONFIG_TFM_ENABLE_MEMORY_PROTECT)
 static struct mpu_armv8m_dev_t dev_mpu_s = { MPU_BASE };
+
+#define MPU_REGION_VENEERS              0
+#define MPU_REGION_TFM_UNPRIV_CODE      1
+#define MPU_REGION_TFM_UNPRIV_DATA      2
+#define MPU_REGION_NS_STACK             3
+#define PARTITION_REGION_RO             4
+#define PARTITION_REGION_RW_STACK       5
+#define PARTITION_REGION_PERIPH_START   6
+#define PARTITION_REGION_PERIPH_MAX_NUM 2
+
+static uint32_t periph_num_count = 0;
+#endif /* CONFIG_TFM_ENABLE_MEMORY_PROTECT */
 
 enum tfm_plat_err_t tfm_spm_hal_init_isolation_hw(void)
 {
@@ -46,23 +60,51 @@ enum tfm_plat_err_t tfm_spm_hal_configure_default_isolation(
                   uint32_t partition_idx,
                   const struct tfm_spm_partition_platform_data_t *platform_data)
 {
-    /* FIXME we need to see how to handle this because nRF IDAU peripheral
-     * is not able to assign PRIV/nPRIV access policy configuration
+    if (!platform_data) {
+        return TFM_PLAT_ERR_INVALID_INPUT;
+    }
+
+#if defined(CONFIG_TFM_ENABLE_MEMORY_PROTECT) && (TFM_LVL != 1)
+
+    if (!tfm_is_partition_privileged(partition_idx)) {
+        struct mpu_armv8m_region_cfg_t region_cfg;
+
+        region_cfg.region_nr = PARTITION_REGION_PERIPH_START +
+                                periph_num_count;
+        periph_num_count++;
+        if (periph_num_count >= PARTITION_REGION_PERIPH_MAX_NUM) {
+            return TFM_PLAT_ERR_MAX_VALUE;
+        }
+        region_cfg.region_base = platform_data->periph_start;
+        region_cfg.region_limit = platform_data->periph_limit;
+        region_cfg.region_attridx = MPU_ARMV8M_MAIR_ATTR_DEVICE_IDX;
+        region_cfg.attr_access = MPU_ARMV8M_AP_RW_PRIV_UNPRIV;
+        region_cfg.attr_sh = MPU_ARMV8M_SH_NONE;
+        region_cfg.attr_exec = MPU_ARMV8M_XN_EXEC_NEVER;
+
+        mpu_armv8m_disable(&dev_mpu_s);
+
+        if (mpu_armv8m_region_enable(&dev_mpu_s, &region_cfg)
+            != MPU_ARMV8M_OK) {
+            return TFM_PLAT_ERR_SYSTEM_ERR;
+        }
+        mpu_armv8m_enable(&dev_mpu_s, PRIVILEGED_DEFAULT_ENABLE,
+                          HARDFAULT_NMI_ENABLE);
+    }
+#endif /* defined(CONFIG_TFM_ENABLE_MEMORY_PROTECT) && (TFM_LVL != 1) */
+
+    /* Peripheral for a (secure) partition is configured as Secure.
+     * Note that the SPU does not allow to configure PRIV/nPRIV permissions
+     * for address ranges, including peripheral address space.
      */
+    if (platform_data->periph_start != 0) {
+        spu_periph_configure_to_secure(platform_data->periph_start);
+    }
+
     return TFM_PLAT_ERR_SUCCESS;
 }
 
 #ifdef CONFIG_TFM_ENABLE_MEMORY_PROTECT
-
-#define MPU_REGION_VENEERS           0
-#define MPU_REGION_TFM_UNPRIV_CODE   1
-#define MPU_REGION_TFM_UNPRIV_DATA   2
-#define MPU_REGION_NS_STACK          3
-#define PARTITION_REGION_RO          4
-#define PARTITION_REGION_RW_STACK    5
-#define PARTITION_REGION_PERIPH      6
-
-
 REGION_DECLARE(Image$$, TFM_UNPRIV_CODE, $$RO$$Base);
 REGION_DECLARE(Image$$, TFM_UNPRIV_CODE, $$RO$$Limit);
 REGION_DECLARE(Image$$, TFM_UNPRIV_DATA, $$RW$$Base);
