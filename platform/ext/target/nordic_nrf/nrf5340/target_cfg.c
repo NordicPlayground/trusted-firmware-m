@@ -130,6 +130,11 @@ enum tfm_plat_err_t nvic_interrupt_target_state_cfg(void)
     /* Make sure that the SPU is targeted to S state */
     NVIC_ClearTargetState(SPU_IRQn);
 
+#ifdef SECURE_UART1
+    /* UARTE1 is a secure peripheral, so its IRQ has to target S state */
+    NVIC_ClearTargetState(UARTE1_IRQn);
+#endif
+
     return TFM_PLAT_ERR_SUCCESS;
 }
 
@@ -196,7 +201,10 @@ int32_t spu_periph_init_cfg(void)
 	spu_peripheral_config_non_secure((uint32_t)NRF_OSCILLATORS, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_RESET, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM0, false);
+#ifndef SECURE_UART1
+	/* UART1 is a secure peripheral, so we need to leave Serial-Box 1 as Secure */
 	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM1, false);
+#endif
 	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM4, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_SAADC, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_TIMER0, false);
