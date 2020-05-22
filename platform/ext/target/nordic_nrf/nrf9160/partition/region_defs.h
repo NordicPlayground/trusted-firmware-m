@@ -34,6 +34,7 @@
 
 /* Size of nRF SPU (Nordic IDAU) regions */
 #define SPU_FLASH_REGION_SIZE   (0x00008000)
+#define SPU_SRAM_REGION_SIZE    (0x00002000)
 
 /* This size of buffer is big enough to store an attestation
  * token produced by initial attestation service
@@ -88,12 +89,6 @@
 #define IMAGE_NS_CODE_SIZE \
             (FLASH_NS_PARTITION_SIZE - BL2_HEADER_SIZE - BL2_TRAILER_SIZE)
 
-/* The CMSE veneers shall be placed in an NSC region
- * which will be placed in a secure SPU region defined
- * in the beginning of the secure flash region.
- */
-#define CMSE_VENEER_REGION_SIZE     (0x400)
-
 /* Alias definitions for secure and non-secure areas*/
 #define S_ROM_ALIAS(x)  (S_ROM_ALIAS_BASE + (x))
 #define NS_ROM_ALIAS(x) (NS_ROM_ALIAS_BASE + (x))
@@ -103,17 +98,27 @@
 
 /* Secure regions */
 #define S_IMAGE_PRIMARY_AREA_OFFSET \
-             (S_IMAGE_PRIMARY_PARTITION_OFFSET + SPU_FLASH_REGION_SIZE)
+                        (S_IMAGE_PRIMARY_PARTITION_OFFSET + BL2_HEADER_SIZE)
 #define S_CODE_START    (S_ROM_ALIAS(S_IMAGE_PRIMARY_AREA_OFFSET))
-#define S_CODE_SIZE     (IMAGE_S_CODE_SIZE - (SPU_FLASH_REGION_SIZE - BL2_HEADER_SIZE))
+#define S_CODE_SIZE     (IMAGE_S_CODE_SIZE)
 #define S_CODE_LIMIT    (S_CODE_START + S_CODE_SIZE - 1)
 
 #define S_DATA_START    (S_RAM_ALIAS(0x0))
 #define S_DATA_SIZE     (TOTAL_RAM_SIZE / 4) /* 64 KB */
 #define S_DATA_LIMIT    (S_DATA_START + S_DATA_SIZE - 1)
 
-/* CMSE Veneers region */
-#define CMSE_VENEER_REGION_START  (S_IMAGE_PRIMARY_AREA_OFFSET - CMSE_VENEER_REGION_SIZE)
+/* The CMSE veneers shall be placed in an NSC region
+ * which will be placed in a secure SPU region with the given alignment.
+ */
+#define CMSE_VENEER_REGION_SIZE     (0x400)
+/* The Nordic IDAU has different alignment requirements than the ARM SAU, so
+ * these override the default start and end alignments. */
+#define CMSE_VENEER_REGION_START_ALIGN \
+                (ALIGN(SPU_FLASH_REGION_SIZE) - (CMSE_VENEER_REGION_SIZE))
+#define CMSE_VENEER_REGION_END_ALIGN (ALIGN(SPU_FLASH_REGION_SIZE))
+/* We want the veneers placed in the secure code so it isn't placed at the very
+ * end. When placed in code, we don't need an absolute start address. */
+#define CMSE_VENEER_REGION_IN_CODE
 
 /* Non-secure regions */
 #define NS_IMAGE_PRIMARY_AREA_OFFSET \
