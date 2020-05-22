@@ -81,7 +81,7 @@ enum tfm_plat_err_t enable_fault_handlers(void)
 enum tfm_plat_err_t system_reset_cfg(void)
 {
     uint32_t reg_value = SCB->AIRCR;
-	
+
     /* Clear SCB_AIRCR_VECTKEY value */
     reg_value &= ~(uint32_t)(SCB_AIRCR_VECTKEY_Msk);
 
@@ -128,11 +128,11 @@ enum tfm_plat_err_t nvic_interrupt_target_state_cfg(void)
     }
 
     /* Make sure that the SPU is targeted to S state */
-    NVIC_ClearTargetState(SPU_IRQn);
+    NVIC_ClearTargetState(NRFX_IRQ_NUMBER_GET(NRF_SPU));
 
 #ifdef SECURE_UART1
     /* UARTE1 is a secure peripheral, so its IRQ has to target S state */
-    NVIC_ClearTargetState(UARTE1_IRQn);
+    NVIC_ClearTargetState(NRFX_IRQ_NUMBER_GET(NRF_UARTE1));
 #endif
 
     return TFM_PLAT_ERR_SUCCESS;
@@ -144,8 +144,8 @@ enum tfm_plat_err_t nvic_interrupt_enable(void)
     /* SPU interrupt enabling */
     spu_enable_interrupts();
 
-    NVIC_ClearPendingIRQ(SPU_IRQn);
-    NVIC_EnableIRQ(SPU_IRQn);
+    NVIC_ClearPendingIRQ(NRFX_IRQ_NUMBER_GET(NRF_SPU));
+    NVIC_EnableIRQ(NRFX_IRQ_NUMBER_GET(NRF_SPU));
 
     return TFM_PLAT_ERR_SUCCESS;
 }
@@ -231,6 +231,7 @@ int32_t spu_periph_init_cfg(void)
 	spu_peripheral_config_non_secure((uint32_t)NRF_GPIOTE1_NS, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_MUTEX, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_P0, false);
+	spu_peripheral_config_non_secure((uint32_t)NRF_P1, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_VMC, false);
 
 	/* DPPI channel configuration */
