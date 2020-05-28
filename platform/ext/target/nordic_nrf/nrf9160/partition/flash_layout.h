@@ -50,13 +50,7 @@
  * marked with comment.
  */
 
-/* Size of a Secure and of a Non-secure image */
-#define FLASH_S_PARTITION_SIZE                (0x40000)       /* S partition: 256 kB*/
-#define FLASH_NS_PARTITION_SIZE               (0x30000)       /* NS partition: 192 kB*/
-#define FLASH_MAX_PARTITION_SIZE        ((FLASH_S_PARTITION_SIZE >   \
-                                          FLASH_NS_PARTITION_SIZE) ? \
-                                         FLASH_S_PARTITION_SIZE :    \
-                                         FLASH_NS_PARTITION_SIZE)
+#include <flash_areas.h>
 
 /* Sector size of the embedded flash hardware (erase/program) */
 #define FLASH_AREA_IMAGE_SECTOR_SIZE        (0x1000)           /* 4 KB. Flash memory program/erase operations have a page granularity. */
@@ -73,26 +67,22 @@
  * IMAGE_SECONDARY, SCRATCH is used as a temporary storage during image
  * swapping.
  */
-#define FLASH_AREA_BL2_OFFSET      (0x0)
-#define FLASH_AREA_BL2_SIZE        (0x10000) /* 64 KB */
-
 #if !defined(MCUBOOT_IMAGE_NUMBER) || (MCUBOOT_IMAGE_NUMBER == 1)
 /* Secure + Non-secure image primary slot */
 #define FLASH_AREA_0_ID            (1)
-#define FLASH_AREA_0_OFFSET        (FLASH_AREA_BL2_OFFSET + FLASH_AREA_BL2_SIZE)
+#define FLASH_AREA_0_OFFSET        (FLASH_PRI_SLOT_OFFSET)
 #define FLASH_AREA_0_SIZE          (FLASH_S_PARTITION_SIZE + \
                                     FLASH_NS_PARTITION_SIZE)
 /* Secure + Non-secure secondary slot */
 #define FLASH_AREA_2_ID            (FLASH_AREA_0_ID + 1)
-#define FLASH_AREA_2_OFFSET        (FLASH_AREA_0_OFFSET + FLASH_AREA_0_SIZE)
+#define FLASH_AREA_2_OFFSET        (FLASH_SEC_SLOT_OFFSET)
 #define FLASH_AREA_2_SIZE          (FLASH_S_PARTITION_SIZE + \
                                     FLASH_NS_PARTITION_SIZE)
 /* Not used, only the Non-swapping firmware upgrade operation
  * is supported on NRF9160.
  */
 #define FLASH_AREA_SCRATCH_ID      (FLASH_AREA_2_ID + 1)
-#define FLASH_AREA_SCRATCH_OFFSET  (FLASH_AREA_2_OFFSET + FLASH_AREA_2_SIZE)
-#define FLASH_AREA_SCRATCH_SIZE    (0)
+
 /* Maximum number of image sectors supported by the bootloader. */
 #define MCUBOOT_MAX_IMG_SECTORS    ((FLASH_S_PARTITION_SIZE + \
                                      FLASH_NS_PARTITION_SIZE) / \
@@ -100,7 +90,7 @@
 #elif (MCUBOOT_IMAGE_NUMBER == 2)
 /* Secure image primary slot */
 #define FLASH_AREA_0_ID            (1)
-#define FLASH_AREA_0_OFFSET        (FLASH_AREA_BL2_OFFSET + FLASH_AREA_BL2_SIZE)
+#define FLASH_AREA_0_OFFSET        (FLASH_PRI_SLOT_OFFSET)
 #define FLASH_AREA_0_SIZE          (FLASH_S_PARTITION_SIZE)
 /* Non-secure image primary slot */
 #define FLASH_AREA_1_ID            (FLASH_AREA_0_ID + 1)
@@ -108,7 +98,7 @@
 #define FLASH_AREA_1_SIZE          (FLASH_NS_PARTITION_SIZE)
 /* Secure image secondary slot */
 #define FLASH_AREA_2_ID            (FLASH_AREA_1_ID + 1)
-#define FLASH_AREA_2_OFFSET        (FLASH_AREA_1_OFFSET + FLASH_AREA_1_SIZE)
+#define FLASH_AREA_2_OFFSET        (FLASH_SEC_SLOT_OFFSET)
 #define FLASH_AREA_2_SIZE          (FLASH_S_PARTITION_SIZE)
 /* Non-secure image secondary slot */
 #define FLASH_AREA_3_ID            (FLASH_AREA_2_ID + 1)
@@ -118,8 +108,7 @@
  * is supported on NRF9160.
  */
 #define FLASH_AREA_SCRATCH_ID      (FLASH_AREA_3_ID + 1)
-#define FLASH_AREA_SCRATCH_OFFSET  (FLASH_AREA_3_OFFSET + FLASH_AREA_3_SIZE)
-#define FLASH_AREA_SCRATCH_SIZE    (0)
+
 /* Maximum number of image sectors supported by the bootloader. */
 #define MCUBOOT_MAX_IMG_SECTORS    (FLASH_MAX_PARTITION_SIZE / \
                                     FLASH_AREA_IMAGE_SECTOR_SIZE)

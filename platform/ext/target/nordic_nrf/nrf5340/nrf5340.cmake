@@ -19,10 +19,17 @@ add_definitions(-DNRF5340_XXAA_APPLICATION)
 
 set (SECURE_UART1 ON)
 
+if(DEFINED FLASH_AREAS_DIR)
+  set (_FLASH_AREAS_DIR ${FLASH_AREAS_DIR})
+else()
+  set (_FLASH_AREAS_DIR "${NRF5340_DIR}/partition/flash_areas")
+endif()
+
 set (FLASH_LAYOUT           "${NRF5340_DIR}/partition/flash_layout.h")
-set (PLATFORM_LINK_INCLUDES "${NRF5340_DIR}/partition/")
+set (PLATFORM_LINK_INCLUDES "${NRF5340_DIR}/partition/" "${_FLASH_AREAS_DIR}")
 
 embedded_include_directories(PATH "${NRF5340_DIR}" ABSOLUTE)
+embedded_include_directories(PATH "${_FLASH_AREAS_DIR}" ABSOLUTE)
 
 if(NOT DEFINED BUILD_CMSIS_CORE)
   message(FATAL_ERROR "Configuration variable BUILD_CMSIS_CORE (true|false) is undefined!")
