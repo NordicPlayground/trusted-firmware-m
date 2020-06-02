@@ -298,7 +298,7 @@ function(set_up_app_build)
 	embedded_set_target_link_includes(TARGET ${EXE_NAME} INCLUDES "${PLATFORM_LINK_INCLUDES}")
 
 	#Generate binary file from axf
-	compiler_generate_binary_output(${EXE_NAME} ${PROJECT_BINARY_DIR})
+	compiler_generate_binary_output(${EXE_NAME})
 
 	#Generate intel hex file from axf
 	compiler_generate_hex_output(${EXE_NAME})
