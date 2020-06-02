@@ -194,7 +194,7 @@ int32_t spu_init_cfg(void)
 
     /* Configures veneers region to be non-secure callable */
     spu_regions_flash_config_non_secure_callable(memory_regions.veneer_base,
-        memory_regions.veneer_limit);
+        memory_regions.veneer_limit - 1);
 
 #ifdef BL2
     /* Secondary image partition */
