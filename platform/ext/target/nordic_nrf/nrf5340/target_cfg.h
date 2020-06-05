@@ -50,9 +50,9 @@ struct tfm_spm_partition_platform_data_t
 /**
  * \brief Configures memory permissions via the System Protection Unit.
  *
- * \return  Returns error code.
+ * \return Returns values as specified by the \ref tfm_plat_err_t
  */
-int32_t spu_init_cfg(void);
+enum tfm_plat_err_t spu_init_cfg(void);
 
 /**
  * \brief Configures peripheral permissions via the System Protection Unit.
@@ -62,9 +62,9 @@ int32_t spu_init_cfg(void);
  * - grants Non-Secure access to DDPI channels
  * - grants Non-Secure access to GPIO pins
  *
- * \return  Returns error code.
+ * \return Returns values as specified by the \ref tfm_plat_err_t
  */
-int32_t spu_periph_init_cfg(void);
+enum tfm_plat_err_t spu_periph_init_cfg(void);
 
 /**
  * \brief Restrict access to peripheral to secure
