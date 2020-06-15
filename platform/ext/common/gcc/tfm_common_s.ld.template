@@ -266,6 +266,29 @@ SECTIONS
 
 #endif /* TFM_LVL != 1 */
 
+    .ER_TFM_CODE : ALIGN(4)
+    {
+        *(.text*)
+
+        KEEP(*(.init))
+        KEEP(*(.fini))
+
+
+        /* .ctors */
+        *crtbegin.o(.ctors)
+        *crtbegin?.o(.ctors)
+        *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+        *(SORT(.ctors.*))
+        *(.ctors)
+
+        /* .dtors */
+         *crtbegin.o(.dtors)
+         *crtbegin?.o(.dtors)
+         *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+         *(SORT(.dtors.*))
+         *(.dtors)
+    } > FLASH
+
 #ifndef TFM_MULTI_CORE_TOPOLOGY
     /*
      * Place the CMSE Veneers (containing the SG instructions) in a correctly
@@ -304,28 +327,8 @@ SECTIONS
             <= CMSE_VENEER_REGION_SIZE, "Veneer region overflowed")
 #endif
 
-    .ER_TFM_CODE : ALIGN(4)
+    .tfm_rodata : ALIGN(4)
     {
-        *(.text*)
-
-        KEEP(*(.init))
-        KEEP(*(.fini))
-
-
-        /* .ctors */
-        *crtbegin.o(.ctors)
-        *crtbegin?.o(.ctors)
-        *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
-        *(SORT(.ctors.*))
-        *(.ctors)
-
-        /* .dtors */
-         *crtbegin.o(.dtors)
-         *crtbegin?.o(.dtors)
-         *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
-         *(SORT(.dtors.*))
-         *(.dtors)
-
         *(.rodata*)
 
         KEEP(*(.eh_frame*))
