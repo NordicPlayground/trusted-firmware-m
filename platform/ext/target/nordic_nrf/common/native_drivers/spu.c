@@ -21,6 +21,9 @@
 #define FLASH_SECURE_ATTRIBUTION_REGION_SIZE SPU_FLASH_REGION_SIZE
 #define SRAM_SECURE_ATTRIBUTION_REGION_SIZE  SPU_SRAM_REGION_SIZE
 
+#define FLASH_SECURE_ATTRIBUTION_REGIONS_START_ID 0
+#define SRAM_SECURE_ATTRIBUTION_REGIONS_START_ID  64
+
 #define NUM_FLASH_SECURE_ATTRIBUTION_REGIONS \
 	(FLASH_TOTAL_SIZE / FLASH_SECURE_ATTRIBUTION_REGION_SIZE)
 #define NUM_SRAM_SECURE_ATTRIBUTION_REGIONS \
@@ -156,6 +159,66 @@ void spu_regions_flash_config_non_secure_callable(uint32_t start_addr,
 		FLASH_NSC_SIZE_REG(nsc_size),
 		FLASH_NSC_REGION_FROM_ADDR(start_addr),
 		1 /* Lock */);
+}
+
+uint32_t spu_regions_flash_get_base_address_in_region(uint32_t region_id)
+{
+	return FLASH_BASE_ADDRESS +
+		((region_id - FLASH_SECURE_ATTRIBUTION_REGIONS_START_ID) *
+			FLASH_SECURE_ATTRIBUTION_REGION_SIZE);
+}
+
+uint32_t spu_regions_flash_get_last_address_in_region(uint32_t region_id)
+{
+	return FLASH_BASE_ADDRESS +
+		((region_id - FLASH_SECURE_ATTRIBUTION_REGIONS_START_ID + 1) *
+			FLASH_SECURE_ATTRIBUTION_REGION_SIZE) - 1;
+}
+
+uint32_t spu_regions_flash_get_start_id(void) {
+
+	return FLASH_SECURE_ATTRIBUTION_REGIONS_START_ID;
+}
+
+uint32_t spu_regions_flash_get_last_id(void) {
+
+	return FLASH_SECURE_ATTRIBUTION_REGIONS_START_ID +
+		NUM_FLASH_SECURE_ATTRIBUTION_REGIONS - 1;
+}
+
+uint32_t spu_regions_flash_get_region_size(void) {
+
+	return FLASH_SECURE_ATTRIBUTION_REGION_SIZE;
+}
+
+uint32_t spu_regions_sram_get_base_address_in_region(uint32_t region_id)
+{
+	return SRAM_BASE_ADDRESS +
+		((region_id - SRAM_SECURE_ATTRIBUTION_REGIONS_START_ID) *
+			SRAM_SECURE_ATTRIBUTION_REGION_SIZE);
+}
+
+uint32_t spu_regions_sram_get_last_address_in_region(uint32_t region_id)
+{
+	return SRAM_BASE_ADDRESS +
+		((region_id - SRAM_SECURE_ATTRIBUTION_REGIONS_START_ID + 1) *
+			SRAM_SECURE_ATTRIBUTION_REGION_SIZE) - 1;
+}
+
+uint32_t spu_regions_sram_get_start_id(void) {
+
+	return SRAM_SECURE_ATTRIBUTION_REGIONS_START_ID;
+}
+
+uint32_t spu_regions_sram_get_last_id(void) {
+
+	return SRAM_SECURE_ATTRIBUTION_REGIONS_START_ID +
+		NUM_SRAM_SECURE_ATTRIBUTION_REGIONS - 1;
+}
+
+uint32_t spu_regions_sram_get_region_size(void) {
+
+	return SRAM_SECURE_ATTRIBUTION_REGION_SIZE;
 }
 
 void spu_peripheral_config_secure(uint32_t periph_base_addr, bool periph_lock)
