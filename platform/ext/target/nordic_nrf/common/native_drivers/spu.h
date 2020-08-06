@@ -141,4 +141,90 @@ static inline void spu_gpio_config_non_secure(uint8_t port_number,
     nrf_spu_gpio_config_set(NRF_SPU, port_number, 0x0, gpio_lock);
 }
 
+/**
+ * \brief Return base address of a Flash SPU regions
+ *
+ * Get the base (lowest) address of a particular Flash SPU region
+ *
+ * \param region_id Valid flash SPU region ID
+ *
+ * \return the base address of the given flash SPU region
+ */
+uint32_t spu_regions_flash_get_base_address_in_region(uint32_t region_id);
+
+/**
+ * \brief Return last address of a Flash SPU regions
+ *
+ * Get the last (highest) address of a particular Flash SPU region
+ *
+ * \param region_id Valid flash SPU region ID
+ *
+ * \return the last address of the given flash SPU region
+ */
+uint32_t spu_regions_flash_get_last_address_in_region(uint32_t region_id);
+
+/**
+ * \brief Return the ID of the first Flash SPU region
+ *
+ * \return the first Flash region ID
+ */
+uint32_t spu_regions_flash_get_start_id(void);
+
+/**
+ * \brief Return the ID of the last Flash SPU region
+ *
+ * \return the last Flash region ID
+ */
+uint32_t spu_regions_flash_get_last_id(void);
+
+/**
+ * \brief Return the size of Flash SPU regions
+ *
+ * \return the size of Flash SPU regions
+ */
+uint32_t spu_regions_flash_get_region_size(void);
+
+/**
+ * \brief Return base address of a SRAM SPU regions
+ *
+ * Get the base (lowest) address of a particular SRAM SPU region
+ *
+ * \param region_id Valid SRAM SPU region ID
+ *
+ * \return the base address of the given SRAM SPU region
+ */
+uint32_t spu_regions_sram_get_base_address_in_region(uint32_t region_id);
+
+/**
+ * \brief Return last address of a SRAM SPU regions
+ *
+ * Get the last (highest) address of a particular SRAM SPU region
+ *
+ * \param region_id Valid SRAM SPU region ID
+ *
+ * \return the last address of the given SRAM SPU region
+ */
+uint32_t spu_regions_sram_get_last_address_in_region(uint32_t region_id);
+
+/**
+ * \brief Return the ID of the first SRAM SPU region
+ *
+ * \return the first SRAM region ID
+ */
+uint32_t spu_regions_sram_get_start_id(void);
+
+/**
+ * \brief Return the ID of the last SRAM SPU region
+ *
+ * \return the last SRAM region ID
+ */
+uint32_t spu_regions_sram_get_last_id(void);
+
+/**
+ * \brief Return the size of SRAM SPU regions
+ *
+ * \return the size of SRAM SPU regions
+ */
+uint32_t spu_regions_sram_get_region_size(void);
+
 #endif
