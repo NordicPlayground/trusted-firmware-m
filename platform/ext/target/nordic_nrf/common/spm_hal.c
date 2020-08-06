@@ -320,3 +320,68 @@ enum tfm_plat_err_t tfm_spm_hal_nvic_interrupt_enable(void)
 {
     return nvic_interrupt_enable();
 }
+
+bool tfm_spm_hal_has_access_to_region(const void *p, size_t s,
+                                              int flags)
+{
+    cmse_address_info_t tt_base = cmse_TT((void *)p);
+    cmse_address_info_t tt_last = cmse_TT((void *)((uint32_t)p + s - 1));
+
+    uint32_t base_spu_id = tt_base.flags.idau_region;
+    uint32_t last_spu_id = tt_last.flags.idau_region;
+
+    size_t size;
+    uint32_t p_start = (uint32_t)p;
+    int i;
+
+    if ((base_spu_id >= spu_regions_flash_get_start_id()) &&
+        (last_spu_id <= spu_regions_flash_get_last_id())) {
+
+        size = spu_regions_flash_get_last_address_in_region(base_spu_id) + 1 - p_start;
+
+        if (cmse_check_address_range((void *)p_start, size, flags) == 0) {
+            return false;
+        }
+
+        for (i = base_spu_id + 1; i < last_spu_id; i++) {
+            p_start = spu_regions_flash_get_base_address_in_region(i);
+            if (cmse_check_address_range((void *)p_start,
+                spu_regions_flash_get_region_size(), flags) == 0) {
+                return false;
+            }
+        }
+
+        p_start = spu_regions_flash_get_base_address_in_region(last_spu_id);
+        size = (uint32_t)p + s - p_start;
+        if (cmse_check_address_range((void *)p_start, size, flags) == 0) {
+            return false;
+        }
+
+
+    } else if ((base_spu_id >= spu_regions_sram_get_start_id()) &&
+        (last_spu_id <= spu_regions_sram_get_last_id())) {
+
+        size = spu_regions_sram_get_last_address_in_region(base_spu_id) + 1 - p_start;
+        if (cmse_check_address_range((void *)p_start, size, flags) == 0) {
+            return false;
+        }
+
+        for (i = base_spu_id + 1; i < last_spu_id; i++) {
+            p_start = spu_regions_sram_get_base_address_in_region(i);
+            if (cmse_check_address_range((void *)p_start,
+                spu_regions_sram_get_region_size(), flags) == 0) {
+                return false;
+            }
+        }
+
+        p_start = spu_regions_sram_get_base_address_in_region(last_spu_id);
+        size = (uint32_t)p + s - p_start;
+        if (cmse_check_address_range((void *)p_start, size, flags) == 0) {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    return true;
+}
