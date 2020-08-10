@@ -32,7 +32,7 @@
 #ifndef NRFX_GLUE_H__
 #define NRFX_GLUE_H__
 
-#include <assert.h>
+#include <log/tfm_assert.h>
 
 #include <soc/nrfx_atomic.h>
 #include <soc/nrfx_coredep.h>
@@ -58,7 +58,7 @@ extern "C" {
  *
  * @param expression Expression to be evaluated.
  */
-#define NRFX_ASSERT(expression)  assert(expression)
+#define NRFX_ASSERT(expression)  TFM_ASSERT(expression)
 
 /**
  * @brief Macro for placing a compile time assertion.
