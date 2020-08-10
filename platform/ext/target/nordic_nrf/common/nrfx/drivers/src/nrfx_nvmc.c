@@ -189,42 +189,27 @@ static uint32_t partial_word_create(uint32_t addr, uint8_t const * bytes, uint32
 
 static void nvmc_readonly_mode_set(void)
 {
-    /*
-     * For secure code, the access mode needs to be set for both secure and
-     * non-secure regions.
-     */
-#if defined(NVMC_CONFIGNS_WEN_Msk)
+#if defined(NRF_TRUSTZONE_NONSECURE)
     nrf_nvmc_nonsecure_mode_set(NRF_NVMC, NRF_NVMC_NS_MODE_READONLY);
-#endif
-#if !defined(NRF_TRUSTZONE_NONSECURE)
+#else
     nrf_nvmc_mode_set(NRF_NVMC, NRF_NVMC_MODE_READONLY);
 #endif
 }
 
 static void nvmc_write_mode_set(void)
 {
-    /*
-     * For secure code, the access mode needs to be set for both secure and
-     * non-secure regions.
-     */
-#if defined(NVMC_CONFIGNS_WEN_Msk)
+#if defined(NRF_TRUSTZONE_NONSECURE)
     nrf_nvmc_nonsecure_mode_set(NRF_NVMC, NRF_NVMC_NS_MODE_WRITE);
-#endif
-#if !defined(NRF_TRUSTZONE_NONSECURE)
+#else
     nrf_nvmc_mode_set(NRF_NVMC, NRF_NVMC_MODE_WRITE);
 #endif
 }
 
 static void nvmc_erase_mode_set(void)
 {
-    /*
-     * For secure code, the access mode needs to be set for both secure and
-     * non-secure regions.
-     */
-#if defined(NVMC_CONFIGNS_WEN_Msk)
+#if defined(NRF_TRUSTZONE_NONSECURE)
     nrf_nvmc_nonsecure_mode_set(NRF_NVMC, NRF_NVMC_NS_MODE_ERASE);
-#endif
-#if !defined(NRF_TRUSTZONE_NONSECURE)
+#else
     nrf_nvmc_mode_set(NRF_NVMC, NRF_NVMC_MODE_ERASE);
 #endif
 }
