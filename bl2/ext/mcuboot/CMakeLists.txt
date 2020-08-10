@@ -187,12 +187,6 @@ endif()
 #Generate binary file from axf
 compiler_generate_binary_output(${PROJECT_NAME})
 
-#Generate intel hex file from axf
-compiler_generate_hex_output(${PROJECT_NAME})
-
-#Generate elf file from axf
-compiler_generate_elf_output(${PROJECT_NAME})
-
 message("- MCUBOOT_REPO: '${MCUBOOT_REPO}'.")
 message("- MCUBOOT_IMAGE_NUMBER: '${MCUBOOT_IMAGE_NUMBER}'.")
 message("- MCUBOOT_UPGRADE_STRATEGY: '${MCUBOOT_UPGRADE_STRATEGY}'.")
