@@ -186,44 +186,44 @@ int32_t spu_init_cfg(void)
         memory_regions.secondary_partition_limit);
 #endif /* BL2 */
 
-    return TFM_PLAT_ERR_SUCCESS;
+    return ARM_DRIVER_OK;
 }
 
 int32_t spu_periph_init_cfg(void)
 {
 	/* Peripheral configuration */
-	spu_peripheral_config_non_secure((uint32_t)NRF_FPU, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_OSCILLATORS, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_RESET, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM1, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM4, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_SAADC, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_TIMER0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_TIMER1, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_TIMER2, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_RTC0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_RTC1, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_WDT0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_COMP, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_EGU0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_EGU1, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_EGU2, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_EGU3, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_EGU4, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_EGU5, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_PWM0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_PWM1, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_PWM2, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_PDM0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_I2S0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_IPC, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_QSPI, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_NFCT, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_GPIOTE1_NS, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_MUTEX, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_P0, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_VMC, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_FPU, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_OSCILLATORS, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_RESET, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_SPIM0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_SPIM1, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_SPIM4, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_SAADC, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_TIMER0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_TIMER1, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_TIMER2, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_RTC0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_RTC1, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_WDT0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_COMP, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_EGU0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_EGU1, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_EGU2, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_EGU3, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_EGU4, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_EGU5, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_PWM0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_PWM1, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_PWM2, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_PDM0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_I2S0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_IPC, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_QSPI, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_NFCT, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_GPIOTE1_NS, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_MUTEX, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_P0, false);
+	spu_peripheral_config_non_secure((u32_t)NRF_VMC, false);
 
 	/* DPPI channel configuration */
 	spu_dppi_config_non_secure(false);
@@ -232,7 +232,7 @@ int32_t spu_periph_init_cfg(void)
 	spu_gpio_config_non_secure(0, false);
 	spu_gpio_config_non_secure(1, false);
 
-	return TFM_PLAT_ERR_SUCCESS;
+	return ARM_DRIVER_OK;
 }
 
 void spu_periph_configure_to_secure(uint32_t periph_num)
