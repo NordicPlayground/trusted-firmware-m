@@ -146,8 +146,6 @@ function(compiler_set_cmse_output TARGET FILE_PATH)
 	set_property(TARGET ${TARGET} APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--cmse-implib,--out-implib=${FILE_PATH}")
 	#Tell cmake cmse output is a generated object file.
 	SET_SOURCE_FILES_PROPERTIES("${FILE_PATH}" PROPERTIES EXTERNAL_OBJECT true GENERATED true)
-	#Dummy command to add BYPRODUCTS
-	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND echo -n BYPRODUCTS ${FILE_PATH})
 	#Tell cmake cmse output shall be removed by clean target.
 	get_directory_property(_ADDITIONAL_MAKE_CLEAN_FILES DIRECTORY "./" ADDITIONAL_MAKE_CLEAN_FILES)
 	set_directory_properties(PROPERTY ADDITIONAL_MAKE_CLEAN_FILES "${_ADDITIONAL_MAKE_CLEAN_FILES} ${FILE_PATH}")

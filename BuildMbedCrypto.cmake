@@ -110,8 +110,6 @@ externalproject_add(${MBEDCRYPTO_TARGET_NAME}
 add_custom_target(${MBEDCRYPTO_TARGET_NAME}_install
     COMMAND ${CMAKE_COMMAND} --build ${MBEDCRYPTO_BINARY_DIR}  -- install
     WORKING_DIRECTORY ${MBEDCRYPTO_BINARY_DIR}
-    BYPRODUCTS
-    ${MBEDCRYPTO_INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX_C}mbedcrypto${CMAKE_STATIC_LIBRARY_SUFFIX_C}
     COMMENT "Installing Mbed Crypto to ${MBEDCRYPTO_INSTALL_DIR}"
     VERBATIM)
 #Make install rule depend on Mbed Crypto library build
