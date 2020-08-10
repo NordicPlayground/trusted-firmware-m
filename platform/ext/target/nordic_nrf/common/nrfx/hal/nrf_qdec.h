@@ -204,22 +204,7 @@ NRF_STATIC_INLINE void nrf_qdec_dbfen_disable(NRF_QDEC_Type * p_reg);
 NRF_STATIC_INLINE uint32_t nrf_qdec_dbfen_get(NRF_QDEC_Type const * p_reg);
 
 /**
- * @brief Function for configuring QDEC pins.
- *
- * @param[in] p_reg       Pointer to the structure of registers of the peripheral.
- * @param[in] phase_a_pin Phase A pin number.
- * @param[in] phase_b_pin Phase B pin number.
- * @param[in] led_pin     LED pin number.
- */
-NRF_STATIC_INLINE void nrf_qdec_pins_set(NRF_QDEC_Type * p_reg,
-                                         uint32_t        phase_a_pin,
-                                         uint32_t        phase_b_pin,
-                                         uint32_t        led_pin);
-
-/**
  * @brief Function for assigning QDEC pins.
- *
- * @note This function is deprecated. Use @ref nrf_qdec_pins_set instead.
  *
  * @param[in] p_reg   Pointer to the structure of registers of the peripheral.
  * @param[in] psela   Pin number.
@@ -230,33 +215,6 @@ NRF_STATIC_INLINE void nrf_qdec_pio_assign(NRF_QDEC_Type * p_reg,
                                            uint32_t        psela,
                                            uint32_t        pselb,
                                            uint32_t        pselled);
-
-/**
- * @brief Function for getting the Phase A pin selection.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Phase A pin selection.
- */
-NRF_STATIC_INLINE uint32_t nrf_qdec_phase_a_pin_get(NRF_QDEC_Type const * p_reg);
-
-/**
- * @brief Function for getting the Phase B pin selection.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Phase B pin selection.
- */
-NRF_STATIC_INLINE uint32_t nrf_qdec_phase_b_pin_get(NRF_QDEC_Type const * p_reg);
-
-/**
- * @brief Function for getting the LED pin selection.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return LED pin selection.
- */
-NRF_STATIC_INLINE uint32_t nrf_qdec_led_pin_get(NRF_QDEC_Type const * p_reg);
 
 /**
  * @brief Function for setting the specified QDEC task.
@@ -505,62 +463,27 @@ NRF_STATIC_INLINE uint32_t nrf_qdec_dbfen_get(NRF_QDEC_Type const * p_reg)
     return p_reg->DBFEN;
 }
 
-NRF_STATIC_INLINE void nrf_qdec_pins_set(NRF_QDEC_Type * p_reg,
-                                         uint32_t        phase_a_pin,
-                                         uint32_t        phase_b_pin,
-                                         uint32_t        led_pin)
-{
-#if defined(QDEC_PSEL_A_CONNECT_Pos)
-    p_reg->PSEL.A = phase_a_pin;
-#else
-    p_reg->PSELA = phase_a_pin;
-#endif
-
-#if defined(QDEC_PSEL_B_CONNECT_Pos)
-    p_reg->PSEL.B = phase_b_pin;
-#else
-    p_reg->PSELB = phase_b_pin;
-#endif
-
-#if defined(QDEC_PSEL_LED_CONNECT_Pos)
-    p_reg->PSEL.LED = led_pin;
-#else
-    p_reg->PSELLED = led_pin;
-#endif
-}
-
 NRF_STATIC_INLINE void nrf_qdec_pio_assign(NRF_QDEC_Type * p_reg,
                                            uint32_t        psela,
                                            uint32_t        pselb,
                                            uint32_t        pselled)
 {
-    nrf_qdec_pins_set(p_reg, psela, pselb, pselled);
-}
-
-NRF_STATIC_INLINE uint32_t nrf_qdec_phase_a_pin_get(NRF_QDEC_Type const * p_reg)
-{
 #if defined(QDEC_PSEL_A_CONNECT_Pos)
-    return p_reg->PSEL.A;
+    p_reg->PSEL.A = psela;
 #else
-    return p_reg->PSELA;
+    p_reg->PSELA = psela;
 #endif
-}
 
-NRF_STATIC_INLINE uint32_t nrf_qdec_phase_b_pin_get(NRF_QDEC_Type const * p_reg)
-{
 #if defined(QDEC_PSEL_B_CONNECT_Pos)
-    return p_reg->PSEL.B;
+    p_reg->PSEL.B = pselb;
 #else
-    return p_reg->PSELB;
+    p_reg->PSELB = pselb;
 #endif
-}
 
-NRF_STATIC_INLINE uint32_t nrf_qdec_led_pin_get(NRF_QDEC_Type const * p_reg)
-{
 #if defined(QDEC_PSEL_LED_CONNECT_Pos)
-    return p_reg->PSEL.LED;
+    p_reg->PSEL.LED = pselled;
 #else
-    return p_reg->PSELLED;
+    p_reg->PSELLED = pselled;
 #endif
 }
 
