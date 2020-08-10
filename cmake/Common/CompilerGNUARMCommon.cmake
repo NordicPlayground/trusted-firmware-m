@@ -187,30 +187,15 @@ function(compiler_merge_library)
 endfunction()
 
 function(compiler_generate_binary_output TARGET)
-	add_custom_command(TARGET ${TARGET}
-		POST_BUILD
-		COMMAND
-		${CMAKE_GNUARM_OBJCOPY} ARGS -O binary $<TARGET_FILE:${TARGET}> ${PROJECT_BINARY_DIR}/${TARGET}.bin
-		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.bin)
+	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_GNUARM_OBJCOPY} ARGS -O binary $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.bin)
 endfunction()
 
 function(compiler_generate_hex_output TARGET)
-	add_custom_command(TARGET ${TARGET}
-		POST_BUILD
-		COMMAND
-		${CMAKE_GNUARM_OBJCOPY} ARGS -O ihex $<TARGET_FILE:${TARGET}> ${PROJECT_BINARY_DIR}/${TARGET}.hex
-		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.hex)
+	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_GNUARM_OBJCOPY} ARGS -O ihex $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex)
 endfunction()
 
 function(compiler_generate_elf_output TARGET)
-	add_custom_command(TARGET ${TARGET}
-		POST_BUILD
-		COMMAND
-		${CMAKE_GNUARM_OBJCOPY} ARGS -O elf32-little $<TARGET_FILE:${TARGET}> ${PROJECT_BINARY_DIR}/${TARGET}.elf
-		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.elf)
+	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_GNUARM_OBJCOPY} ARGS -O elf32-little $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.elf)
 endfunction()
 
 # Function for creating a new target that preprocesses a .c file
