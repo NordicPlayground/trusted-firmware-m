@@ -20,7 +20,7 @@
 
 #include "tfm_plat_defs.h"
 
-#define TFM_DRIVER_STDIO    Driver_USART1
+#define TFM_DRIVER_STDIO    Driver_USART0
 #define NS_DRIVER_STDIO     Driver_USART0
 
 /**
