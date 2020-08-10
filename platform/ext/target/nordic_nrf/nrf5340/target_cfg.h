@@ -39,33 +39,11 @@ struct memory_region_limits {
 };
 
 /**
- * \brief Configures memory permissions via the System Protection Unit.
+ * \brief Configures the Security Protection Unit.
  *
  * \return  Returns error code.
  */
 int32_t spu_init_cfg(void);
-
-/**
- * \brief Configures peripheral permissions via the System Protection Unit.
- *
- * The function does the following:
- * - grants Non-Secure access to nRF peripherals that are not Secure-only
- * - grants Non-Secure access to DDPI channels
- * - grants Non-Secure access to GPIO pins
- *
- * \return  Returns error code.
- */
-int32_t spu_periph_init_cfg(void);
-
-/**
- * \brief Restrict access to peripheral to secure
- */
-void spu_periph_configure_to_secure(uint32_t periph_num);
-
-/**
- * \brief Allow non-secure access to peripheral
- */
-void spu_periph_configure_to_non_secure(uint32_t periph_num);
 
 /**
  * \brief Clears SPU interrupt.
