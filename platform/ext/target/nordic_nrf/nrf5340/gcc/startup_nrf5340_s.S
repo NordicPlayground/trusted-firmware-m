@@ -244,12 +244,6 @@ Reset_Handler:
 #endif /* __STARTUP_CLEAR_BSS_MULTIPLE || __STARTUP_CLEAR_BSS */
 
     cpsid   i              /* Disable IRQs */
-
-/* Setup Vector Table Offset Register. */
-    ldr     r0, =__Vectors
-    ldr     r1, =0xE000ED08 /* SCB->VTOR */
-    str     r0, [r1]
-
     bl      SystemInit
 
     mrs     r0, control    /* Get control value */
