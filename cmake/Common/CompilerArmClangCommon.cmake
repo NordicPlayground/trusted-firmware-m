@@ -185,15 +185,30 @@ function(compiler_merge_library)
 endfunction()
 
 function(compiler_generate_binary_output TARGET)
-	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_ARMCCLANG_FROMELF} ARGS --bincombined --output=$<TARGET_FILE_DIR:${TARGET}>/${TARGET}.bin $<TARGET_FILE:${TARGET}>)
+	add_custom_command(TARGET ${TARGET}
+		POST_BUILD
+		COMMAND
+		${CMAKE_ARMCCLANG_FROMELF} ARGS --bincombined --output=${PROJECT_BINARY_DIR}/${TARGET}.bin $<TARGET_FILE:${TARGET}>
+		BYPRODUCTS
+		${PROJECT_BINARY_DIR}/${TARGET}.bin)
 endfunction()
 
 function(compiler_generate_hex_output TARGET)
-	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_ARMCCLANG_FROMELF} ARGS --i32combined --output=$<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex $<TARGET_FILE:${TARGET}>)
+	add_custom_command(TARGET ${TARGET}
+		POST_BUILD
+		COMMAND
+		${CMAKE_ARMCCLANG_FROMELF} ARGS --i32combined --output=${PROJECT_BINARY_DIR}/${TARGET}.hex $<TARGET_FILE:${TARGET}>
+		BYPRODUCTS
+		${PROJECT_BINARY_DIR}/${TARGET}.hex)
 endfunction()
 
 function(compiler_generate_elf_output TARGET)
-	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_ARMCCLANG_FROMELF} ARGS --elf --output=$<TARGET_FILE_DIR:${TARGET}>/${TARGET}.elf $<TARGET_FILE:${TARGET}>)
+	add_custom_command(TARGET ${TARGET}
+		POST_BUILD
+		COMMAND
+		${CMAKE_ARMCCLANG_FROMELF} ARGS --elf --output=${PROJECT_BINARY_DIR}/${TARGET}.elf $<TARGET_FILE:${TARGET}>
+		BYPRODUCTS
+		${PROJECT_BINARY_DIR}/${TARGET}.elf)
 endfunction()
 
 # Function for creating a new target that preprocesses a .c file
