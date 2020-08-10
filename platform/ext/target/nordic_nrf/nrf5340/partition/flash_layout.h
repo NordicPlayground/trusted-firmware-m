@@ -22,11 +22,11 @@
  *
  * 0x0000_0000 BL2 - MCUBoot (64 KB)
  * 0x0001_0000 Primary image area (448 KB):
- *    0x0001_0000 Secure     image primary (256 KB)
- *    0x0005_0000 Non-secure image primary (192 KB)
+ *    0x0001_0000 Secure     image primary (192 KB)
+ *    0x0004_0000 Non-secure image primary (256 KB)
  * 0x0008_0000 Secondary image area (448 KB):
- *    0x0008_0000 Secure     image secondary (256 KB)
- *    0x000c_0000 Non-secure image secondary (192 KB)
+ *    0x0008_0000 Secure     image secondary (192 KB)
+ *    0x000b_0000 Non-secure image secondary (256 KB)
  * 0x000f_0000 Secure Storage Area (16 KB)
  * 0x000f_4000 Internal Trusted Storage Area (8 KB)
  * 0x000f_6000 NV counters area (4 KB)
@@ -51,8 +51,8 @@
  */
 
 /* Size of a Secure and of a Non-secure image */
-#define FLASH_S_PARTITION_SIZE                (0x40000)       /* S partition: 256 kB*/
-#define FLASH_NS_PARTITION_SIZE               (0x30000)       /* NS partition: 192 kB*/
+#define FLASH_S_PARTITION_SIZE                (0x30000)       /* S partition: 192 kB*/
+#define FLASH_NS_PARTITION_SIZE               (0x40000)       /* NS partition: 256 kB*/
 #define FLASH_MAX_PARTITION_SIZE        ((FLASH_S_PARTITION_SIZE >   \
                                           FLASH_NS_PARTITION_SIZE) ? \
                                          FLASH_S_PARTITION_SIZE :    \
