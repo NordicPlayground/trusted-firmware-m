@@ -172,7 +172,7 @@ void sau_and_idau_cfg(void)
     SAU->CTRL |= SAU_CTRL_ALLNS_Msk;
 }
 
-enum tfm_plat_err_t spu_init_cfg(void)
+int32_t spu_init_cfg(void)
 {
     /*
      * Configure SPU Regions for Non-Secure Code and SRAM (Data)
@@ -205,7 +205,7 @@ enum tfm_plat_err_t spu_init_cfg(void)
     return TFM_PLAT_ERR_SUCCESS;
 }
 
-enum tfm_plat_err_t spu_periph_init_cfg(void)
+int32_t spu_periph_init_cfg(void)
 {
 	/* Peripheral configuration */
 	spu_peripheral_config_non_secure((uint32_t)NRF_FPU, false);
