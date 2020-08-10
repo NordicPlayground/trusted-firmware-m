@@ -208,8 +208,9 @@ enum tfm_plat_err_t spu_init_cfg(void)
 enum tfm_plat_err_t spu_periph_init_cfg(void)
 {
 	/* Peripheral configuration */
-	spu_peripheral_config_non_secure((uint32_t)NRF_REGULATORS, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_CLOCK, false);
+	spu_peripheral_config_non_secure((uint32_t)NRF_FPU, false);
+	spu_peripheral_config_non_secure((uint32_t)NRF_OSCILLATORS, false);
+	spu_peripheral_config_non_secure((uint32_t)NRF_RESET, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_SPIM0, false);
 #ifndef SECURE_UART1
 	/* UART1 is a secure peripheral, so we need to leave Serial-Box 1 as Secure */
@@ -222,7 +223,6 @@ enum tfm_plat_err_t spu_periph_init_cfg(void)
 	spu_peripheral_config_non_secure((uint32_t)NRF_TIMER2, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_RTC0, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_RTC1, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_DPPIC, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_WDT0, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_COMP, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_EGU0, false);
@@ -241,7 +241,6 @@ enum tfm_plat_err_t spu_periph_init_cfg(void)
 	spu_peripheral_config_non_secure((uint32_t)NRF_NFCT, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_GPIOTE1_NS, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_MUTEX, false);
-	spu_peripheral_config_non_secure((uint32_t)NRF_NVMC, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_P0, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_P1, false);
 	spu_peripheral_config_non_secure((uint32_t)NRF_VMC, false);
