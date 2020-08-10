@@ -7,9 +7,8 @@
 
 #include <stdio.h>
 #include "cmsis.h"
-#include "platform/include/tfm_spm_hal.h"
+#include "tfm_spm_hal.h"
 #include "spm_api.h"
-#include "spm_db.h"
 #include "tfm_platform_core_api.h"
 #include "target_cfg.h"
 #include "Driver_MPC.h"

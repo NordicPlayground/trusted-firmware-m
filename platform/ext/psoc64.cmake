@@ -47,25 +47,25 @@ set(PLATFORM_DIR ${CMAKE_CURRENT_LIST_DIR})
 if(COMPILER STREQUAL "ARMCLANG")
     set (S_SCATTER_FILE_NAME   "${PLATFORM_DIR}/common/armclang/tfm_common_s.sct")
     set (NS_SCATTER_FILE_NAME  "${PLATFORM_DIR}/target/cypress/psoc64/Device/Source/armclang/psoc6_ns.sct")
-    if (DEFINED CMSIS_5_DIR)
-      # not all project defines CMSIS_5_DIR, only the ones that use it.
-      set (RTX_LIB_PATH "${CMSIS_5_DIR}/CMSIS/RTOS2/RTX/Library/ARM/RTX_CM4F.lib")
+    if (DEFINED CMSIS_DIR)
+      # not all project defines CMSIS_DIR, only the ones that use it.
+      set (RTX_LIB_PATH "${CMSIS_DIR}/RTOS2/RTX/Library/ARM/RTX_CM4F.lib")
     endif()
 elseif(COMPILER STREQUAL "GNUARM")
     set (S_SCATTER_FILE_NAME   "${PLATFORM_DIR}/common/gcc/tfm_common_s.ld")
     set (NS_SCATTER_FILE_NAME  "${PLATFORM_DIR}/target/cypress/psoc64/Device/Source/gcc/psoc6_ns.ld")
-    if (DEFINED CMSIS_5_DIR)
-      # not all project defines CMSIS_5_DIR, only the ones that use it.
+    if (DEFINED CMSIS_DIR)
+      # not all project defines CMSIS_DIR, only the ones that use it.
       # [libRTX_CM3.a should be used for CM4 without FPU]
-      set (RTX_LIB_PATH "${CMSIS_5_DIR}/CMSIS/RTOS2/RTX/Library/GCC/libRTX_CM3.a")
+      set (RTX_LIB_PATH "${CMSIS_DIR}/RTOS2/RTX/Library/GCC/libRTX_CM3.a")
     endif()
 elseif(COMPILER STREQUAL "IARARM")
     set (S_SCATTER_FILE_NAME   "${PLATFORM_DIR}/common/iar/tfm_common_s.icf")
     set (NS_SCATTER_FILE_NAME  "${PLATFORM_DIR}/target/cypress/psoc64/Device/Source/iar/psoc6_ns.icf")
-    if (DEFINED CMSIS_5_DIR)
-      # not all project defines CMSIS_5_DIR, only the ones that use it.
+    if (DEFINED CMSIS_DIR)
+      # not all project defines CMSIS_DIR, only the ones that use it.
       # [RTX_CM3.a should be used for CM4 without FPU]
-      set (RTX_LIB_PATH "${CMSIS_5_DIR}/CMSIS/RTOS2/RTX/Library/IAR/RTX_CM3.a")
+      set (RTX_LIB_PATH "${CMSIS_DIR}/RTOS2/RTX/Library/IAR/RTX_CM3.a")
     endif()
 else()
     message(FATAL_ERROR "No startup file is available for compiler '${CMAKE_C_COMPILER_ID}'.")
@@ -190,6 +190,9 @@ elseif(BUILD_STARTUP)
   endif()
 endif()
 
+#Enable the checks of attestation claims against hard-coded values.
+set(ATTEST_CLAIM_VALUE_CHECK ON)
+
 if (NOT DEFINED BUILD_TARGET_CFG)
   message(FATAL_ERROR "Configuration variable BUILD_TARGET_CFG (true|false) is undefined!")
 elseif(BUILD_TARGET_CFG)
@@ -222,9 +225,9 @@ if (NOT DEFINED BUILD_TARGET_NV_COUNTERS)
 elseif(BUILD_TARGET_NV_COUNTERS)
   list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/cypress/psoc64/nv_counters.c")
   set(TARGET_NV_COUNTERS_ENABLE ON)
-  # Sets SST_ROLLBACK_PROTECTION flag to compile in the SST services
+  # Sets PS_ROLLBACK_PROTECTION flag to compile in the PS services
   # rollback protection code as the target supports nv counters.
-  set (SST_ROLLBACK_PROTECTION ON)
+  set (PS_ROLLBACK_PROTECTION ON)
 endif()
 
 if (NOT DEFINED BUILD_CMSIS_DRIVERS)
@@ -242,10 +245,10 @@ if (NOT DEFINED BUILD_FLASH)
   message(FATAL_ERROR "Configuration variable BUILD_FLASH (true|false) is undefined!")
 elseif(BUILD_FLASH)
   list(APPEND ALL_SRC_C "${PLATFORM_DIR}/target/cypress/psoc64/CMSIS_Driver/Driver_Flash.c")
-  # As the SST area is going to be in RAM, it is required to set SST_CREATE_FLASH_LAYOUT
-  # to be sure the SST service knows that when it starts the SST area does not contain any
-  # valid SST flash layout and it needs to create one.
-  set(SST_CREATE_FLASH_LAYOUT ON)
+  # As the PS area is going to be in RAM, it is required to set PS_CREATE_FLASH_LAYOUT
+  # to be sure the PS service knows that when it starts the PS area does not contain any
+  # valid PS flash layout and it needs to create one.
+  set(PS_CREATE_FLASH_LAYOUT ON)
   set(ITS_CREATE_FLASH_LAYOUT ON)
   embedded_include_directories(PATH "${PLATFORM_DIR}/target/cypress/psoc64/CMSIS_Driver" ABSOLUTE)
   embedded_include_directories(PATH "${PLATFORM_DIR}/driver" ABSOLUTE)

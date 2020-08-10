@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "core_ns_tests.h"
+#include "cmsis.h"
 #include "tfm_api.h"
 #include "tfm_plat_test.h"
 #include "test/suites/core/non_secure/core_test_api.h"
@@ -20,7 +21,6 @@
 #include "tfm_veneers.h"
 #endif /* TFM_PSA_API */
 #ifdef TFM_ENABLE_IRQ_TEST
-#include "platform_irq.h"
 #include "tfm_peripherals_def.h"
 #endif
 
@@ -516,7 +516,8 @@ void TIMER1_Handler (void)
 static int32_t tfm_core_test_irq_scenario(
                                          enum irq_test_scenario_t test_scenario)
 {
-    struct irq_test_execution_data_t *execution_data_address = &irq_test_execution_data;
+    struct irq_test_execution_data_t *execution_data_address =
+                                                       &irq_test_execution_data;
     uint32_t scenario = test_scenario;
 
     psa_invec in_vec[] = {
@@ -586,6 +587,15 @@ static void tfm_core_test_irq(struct test_result_t *ret)
 {
     int32_t err;
 
+    struct irq_test_execution_data_t *execution_data_address =
+                                                       &irq_test_execution_data;
+    uint32_t scenario = IRQ_TEST_SCENARIO_NONE;
+
+    psa_invec in_vec[] = {
+                 {&scenario, sizeof(uint32_t)},
+                 {&execution_data_address,
+                                  sizeof(struct irq_test_execution_data_t *)} };
+
     NVIC_EnableIRQ(TFM_TIMER1_IRQ);
 
     err = tfm_core_test_irq_scenario(IRQ_TEST_SCENARIO_1);
@@ -615,6 +625,19 @@ static void tfm_core_test_irq(struct test_result_t *ret)
     err = tfm_core_test_irq_scenario(IRQ_TEST_SCENARIO_5);
     if (err != CORE_TEST_ERRNO_SUCCESS) {
         TEST_FAIL("Failed to execute IRQ test scenario 5.");
+        return;
+    }
+
+    /* finally call prepare with scenario none as a teardown */
+#ifdef TFM_PSA_API
+    err = psa_test_common(SPM_CORE_IRQ_TEST_1_PREPARE_TEST_SCENARIO_SID,
+                          SPM_CORE_IRQ_TEST_1_PREPARE_TEST_SCENARIO_VERSION,
+                          in_vec, 2, NULL, 0);
+#else
+    err = tfm_spm_irq_test_1_prepare_test_scenario_veneer(in_vec, 2, NULL, 0);
+#endif
+    if (err != CORE_TEST_ERRNO_SUCCESS) {
+        TEST_FAIL("Failed to tear down IRQ tests");
         return;
     }
 

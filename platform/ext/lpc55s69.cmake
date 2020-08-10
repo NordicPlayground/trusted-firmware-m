@@ -15,10 +15,10 @@ set(PLATFORM_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 add_definitions(-DCPU_LPC55S69JBD100_cm33_core0)
 add_definitions(-DSERIAL_PORT_TYPE_UART=1)
-# set(SST_ENCRYPTION ON)
-set(SST_RAM_FS ON) # Disabled with BUILD_FLASH
-set(SST_CREATE_FLASH_LAYOUT ON)
-set(SST_ROLLBACK_PROTECTION ON)
+# set(PS_ENCRYPTION ON)
+set(PS_RAM_FS ON) # Disabled with BUILD_FLASH
+set(PS_CREATE_FLASH_LAYOUT ON)
+set(PS_ROLLBACK_PROTECTION ON)
 set(ITS_RAM_FS ON) # Disabled with BUILD_FLASH
 set(ITS_CREATE_FLASH_LAYOUT ON)
 set(DAUTH_CHIP_DEFAULT ON)
@@ -32,16 +32,16 @@ if(COMPILER STREQUAL "ARMCLANG")
     #set(BL2_SCATTER_FILE_NAME "${PLATFORM_DIR}target/nxp/lpcxpresso55s69/Device/Source/armclang/LPC55S69_cm33_core0_bl2.sct")
     #set(S_SCATTER_FILE_NAME   "${PLATFORM_DIR}target/nxp/lpcxpresso55s69/Device/Source/armclang/LPC55S69_cm33_core0_s.sct")
     #set(NS_SCATTER_FILE_NAME  "${PLATFORM_DIR}target/nxp/lpcxpresso55s69/Device/Source/armclang/LPC55S69_cm33_core0_ns.sct")
-    if (DEFINED CMSIS_5_DIR)
-      # Not all projects defines CMSIS_5_DIR, only the ones that use it.
-      set (RTX_LIB_PATH "${CMSIS_5_DIR}/CMSIS/RTOS2/RTX/Library/ARM/RTX_V8MMN.lib")
+    if (DEFINED CMSIS_DIR)
+      # Not all projects defines CMSIS_DIR, only the ones that use it.
+      set (RTX_LIB_PATH "${CMSIS_DIR}/RTOS2/RTX/Library/ARM/RTX_V8MMN.lib")
     endif()
 elseif(COMPILER STREQUAL "GNUARM")
     set(S_SCATTER_FILE_NAME   "${PLATFORM_DIR}/common/gcc/tfm_common_s.ld")
     set(NS_SCATTER_FILE_NAME  "${PLATFORM_DIR}/target/nxp/lpcxpresso55s69/Device/Source/armgcc/LPC55S69_cm33_core0_ns.ld")
-    if (DEFINED CMSIS_5_DIR)
-        # Not all projects define CMSIS_5_DIR, only the ones that use it.
-        set(RTX_LIB_PATH "${CMSIS_5_DIR}/CMSIS/RTOS2/RTX/Library/GCC/libRTX_V8MMN.a")
+    if (DEFINED CMSIS_DIR)
+        # Not all projects define CMSIS_DIR, only the ones that use it.
+        set(RTX_LIB_PATH "${CMSIS_DIR}/RTOS2/RTX/Library/GCC/libRTX_V8MMN.a")
     endif()
 else()
     message(FATAL_ERROR "No startup file is available for compiler '${CMAKE_C_COMPILER_ID}'.")
@@ -160,6 +160,9 @@ elseif (BUILD_STARTUP)
     endif()
 endif()
 
+#Enable the checks of attestation claims against hard-coded values.
+set(ATTEST_CLAIM_VALUE_CHECK ON)
+
 if (NOT DEFINED BUILD_TARGET_CFG)
   message(FATAL_ERROR "Configuration variable BUILD_TARGET_CFG (true|false) is undefined!")
 elseif(BUILD_TARGET_CFG)
@@ -204,9 +207,9 @@ elseif(BUILD_TARGET_NV_COUNTERS)
   #       API ONLY if the target has non-volatile counters.
   list(APPEND ALL_SRC_C "${PLATFORM_DIR}/common/template/nv_counters.c")
   set(TARGET_NV_COUNTERS_ENABLE ON)
-  # Sets SST_ROLLBACK_PROTECTION flag to compile in the SST services
+  # Sets PS_ROLLBACK_PROTECTION flag to compile in the PS services
   # rollback protection code as the target supports nv counters.
-  set (SST_ROLLBACK_PROTECTION ON)
+  set (PS_ROLLBACK_PROTECTION ON)
 endif()
 
 if (NOT DEFINED BUILD_CMSIS_DRIVERS)
@@ -224,12 +227,12 @@ if (NOT DEFINED BUILD_FLASH)
 elseif(BUILD_FLASH)
   list(APPEND ALL_SRC_C "${PLATFORM_DIR}/target/nxp/common/CMSIS_Driver/Driver_Flash.c")
 
-  # As the SST area is going to be in RAM, it is required to set
-  # SST_CREATE_FLASH_LAYOUT to be sure the SST service knows that when it
-  # starts the SST area does not contain any valid SST flash layout and it
+  # As the PS area is going to be in RAM, it is required to set
+  # PS_CREATE_FLASH_LAYOUT to be sure the PS service knows that when it
+  # starts the PS area does not contain any valid PS flash layout and it
   # needs to create one.
-  set(SST_CREATE_FLASH_LAYOUT ON)
-  set(SST_RAM_FS OFF)
+  set(PS_CREATE_FLASH_LAYOUT ON)
+  set(PS_RAM_FS OFF)
   set(ITS_CREATE_FLASH_LAYOUT ON)
   set(ITS_RAM_FS OFF)
   embedded_include_directories(PATH "${PLATFORM_DIR}/target/nxp/common/CMSIS_Driver" ABSOLUTE)

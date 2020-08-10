@@ -10,14 +10,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "platform/include/tfm_spm_hal.h"
+#include "tfm_spm_hal.h"
 
 #include "device_definition.h"
 #include "region_defs.h"
 #include "secure_utilities.h"
 #include "spe_ipc_config.h"
 #include "spm_api.h"
-#include "spm_db.h"
 #include "target_cfg.h"
 #include "tfm_multi_core.h"
 #include "tfm_platform_core_api.h"
