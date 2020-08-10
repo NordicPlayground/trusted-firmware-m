@@ -188,13 +188,13 @@ function(compiler_merge_library)
 	endforeach()
 endfunction()
 
-function(compiler_generate_binary_output TARGET)
+function(compiler_generate_binary_output TARGET DIR)
 	add_custom_command(TARGET ${TARGET}
 		POST_BUILD
 		COMMAND
-		${CMAKE_GNUARM_OBJCOPY} ARGS -O binary $<TARGET_FILE:${TARGET}> ${PROJECT_BINARY_DIR}/${TARGET}.bin
+		${CMAKE_GNUARM_OBJCOPY} ARGS -O binary $<TARGET_FILE:${TARGET}> ${DIR}/${TARGET}.bin
 		BYPRODUCTS
-		${PROJECT_BINARY_DIR}/${TARGET}.bin)
+		${DIR}/${TARGET}.bin)
 endfunction()
 
 function(compiler_generate_hex_output TARGET)

@@ -185,7 +185,7 @@ if (CRYPTO_HW_ACCELERATOR OR CRYPTO_HW_ACCELERATOR_OTP_STATE STREQUAL "PROVISION
 endif()
 
 #Generate binary file from axf
-compiler_generate_binary_output(${PROJECT_NAME})
+compiler_generate_binary_output(${PROJECT_NAME} ${PROJECT_BINARY_DIR})
 
 #Generate intel hex file from axf
 compiler_generate_hex_output(${PROJECT_NAME})
