@@ -331,15 +331,8 @@ function(set_up_secure_fw_build)
 		embedded_set_target_link_defines(TARGET ${EXE_NAME} DEFINES "TFM_MULTI_CORE_TEST")
 	endif()
 
-	#Collect executables to common location: <build_dir>/install/outputs/
-	if (DEFINED SECURE_AXF_DIR_PREFIX)
-		set(MY_BINARY_DIR ${SECURE_AXF_DIR_PREFIX})
-	else()
-		set(MY_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
-	endif()
-
 	#Generate binary file from executable
-	compiler_generate_binary_output(${EXE_NAME} ${MY_BINARY_DIR})
+	compiler_generate_binary_output(${EXE_NAME})
 
 	#Generate intel hex file from axf
 	compiler_generate_hex_output(${EXE_NAME})
@@ -496,6 +489,13 @@ function(set_up_secure_fw_build)
 
 	if (NOT DEFINED TFM_MULTI_CORE_TOPOLOGY OR NOT TFM_MULTI_CORE_TOPOLOGY)
 		install(FILES ${S_VENEER_FILE} DESTINATION export/tfm/veneers)
+	endif()
+
+	#Collect executables to common location: <build_dir>/install/outputs/
+	if (DEFINED SECURE_AXF_DIR_PREFIX)
+		set(MY_BINARY_DIR ${SECURE_AXF_DIR_PREFIX})
+	else()
+		set(MY_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 	endif()
 
 	install(FILES ${MY_BINARY_DIR}/${EXE_NAME}.axf
