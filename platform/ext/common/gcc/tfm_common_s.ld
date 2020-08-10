@@ -32,22 +32,9 @@ MEMORY
   CODE_RAM (rwx) : ORIGIN = S_CODE_SRAM_ALIAS_BASE, LENGTH = TOTAL_CODE_SRAM_SIZE
 #endif
 #ifndef TFM_MULTI_CORE_TOPOLOGY
-/* Define CMSE_VENEER_REGION_IN_CODE to place the veneers in FLASH together with
- * the rest of the code. If so, also define CMSE_VENEER_REGION_START_ALIGN and
- * CMSE_VENEER_REGION_END_ALIGN.
- */
-#ifndef CMSE_VENEER_REGION_IN_CODE
   VENEERS  (rx)  : ORIGIN = CMSE_VENEER_REGION_START, LENGTH = CMSE_VENEER_REGION_SIZE
 #endif
-#endif
 }
-
-#ifndef TFM_MULTI_CORE_TOPOLOGY
-#ifndef CMSE_VENEER_REGION_IN_CODE
-#define CMSE_VENEER_REGION_START_ALIGN ALIGN(32)
-#define CMSE_VENEER_REGION_END_ALIGN   ALIGN(32)
-#endif
-#endif
 
 __heap_size__  = S_HEAP_SIZE;
 __psp_stack_size__ = S_PSP_STACK_SIZE;
@@ -601,44 +588,6 @@ SECTIONS
     __exidx_end = .;
 
 #endif /* TFM_LVL != 1 */
-
-#ifndef TFM_MULTI_CORE_TOPOLOGY
-    /*
-     * Place the CMSE Veneers (containing the SG instructions) in a correctly
-     * aligned region so that the SAU can programmed to just set this region as
-     * Non-Secure Callable.
-     */
-    .gnu.sgstubs : ALIGN(32)
-    {
-        . = CMSE_VENEER_REGION_START_ALIGN;
-        Load$$LR$$LR_VENEER$$Base = ABSOLUTE(.);
-        *(.gnu.sgstubs*)
-#ifdef CMSE_VENEER_REGION_IN_CODE
-    } > FLASH
-#else
-    } > VENEERS
-#endif
-
-    /*
-     * This is needed because the linker seems to place the veneers *after* the
-     * .gnu.sgstubs output section, so any end alignment applied inside it are
-     * placed before the veneers instead of after. Also, the end alignment seems
-     * to be ignored if not done in an output section, so this cannot be placed
-     * by itself after the .gnu.sgstubs section.
-     */
-    .sg_end_dummy : ALIGN(32)
-    {
-        . = CMSE_VENEER_REGION_END_ALIGN;
-        Load$$LR$$LR_VENEER$$Limit = ABSOLUTE(.);
-#ifdef CMSE_VENEER_REGION_IN_CODE
-    } > FLASH
-#else
-    } > VENEERS
-#endif
-
-    ASSERT ((Load$$LR$$LR_VENEER$$Limit - Load$$LR$$LR_VENEER$$Base)
-            <= CMSE_VENEER_REGION_SIZE, "Veneer region overflowed")
-#endif
 
     .ER_TFM_CODE : ALIGN(4)
     {
@@ -1407,6 +1356,21 @@ SECTIONS
     {
         KEEP(*(.ramfunc))
     } > RAM AT> FLASH
+#endif
+
+#ifndef TFM_MULTI_CORE_TOPOLOGY
+    /*
+     * Place the CMSE Veneers (containing the SG instruction) after the code, in a
+     * separate 32 bytes aligned region so that the SAU can programmed to just set
+     * this region as Non-Secure Callable.
+     */
+    .gnu.sgstubs : ALIGN(32)
+    {
+        *(.gnu.sgstubs*)
+        . = ALIGN(32);
+    } > VENEERS AT> VENEERS
+    Load$$LR$$LR_VENEER$$Base = ADDR(.gnu.sgstubs);
+    Load$$LR$$LR_VENEER$$Limit = ADDR(.gnu.sgstubs) + SIZEOF(.gnu.sgstubs);
 #endif
 
     Load$$LR$$LR_NS_PARTITION$$Base = NS_PARTITION_START;
