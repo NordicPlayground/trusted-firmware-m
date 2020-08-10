@@ -44,10 +44,10 @@
 #define NRFX_UARTE1_ENABLED 1
 #endif
 #if RTE_USART2
-#define NRFX_UARTE2_ENABLED 1
+#define NRFX_UARTE1_ENABLED 1
 #endif
 #if RTE_USART3
-#define NRFX_UARTE3_ENABLED 1
+#define NRFX_UARTE1_ENABLED 1
 #endif
 
 /*
