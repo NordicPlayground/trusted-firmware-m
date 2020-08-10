@@ -45,7 +45,6 @@ typedef struct {
     size_t               rx_count;
     nrf_uarte_config_t   hal_cfg;
     nrf_uarte_baudrate_t baudrate;
-    bool                 initialized;
 } UARTx_Resources;
 
 static ARM_DRIVER_VERSION ARM_USART_GetVersion(void)
@@ -74,16 +73,12 @@ static int32_t ARM_USARTx_Initialize(ARM_USART_SignalEvent_t cb_event,
     uart_resources->rx_count = 0;
     uart_resources->hal_cfg  = uart_resources->initial_config->hal_cfg;
     uart_resources->baudrate = uart_resources->initial_config->baudrate;
-
-    uart_resources->initialized = true;
     return ARM_DRIVER_OK;
 }
 
 static int32_t ARM_USARTx_Uninitialize(UARTx_Resources *uart_resources)
 {
     nrfx_uarte_uninit(&uart_resources->uarte);
-
-    uart_resources->initialized = false;
     return ARM_DRIVER_OK;
 }
 
@@ -107,10 +102,6 @@ static int32_t ARM_USARTx_PowerControl(ARM_POWER_STATE state,
 static int32_t ARM_USARTx_Send(const void *data, uint32_t num,
                                UARTx_Resources *uart_resources)
 {
-    if (!uart_resources->initialized) {
-        return ARM_DRIVER_ERROR;
-    }
-
     nrfx_err_t err_code = nrfx_uarte_tx(&uart_resources->uarte, data, num);
     if (err_code == NRFX_ERROR_BUSY) {
         return ARM_DRIVER_ERROR_BUSY;
@@ -125,10 +116,6 @@ static int32_t ARM_USARTx_Send(const void *data, uint32_t num,
 static int32_t ARM_USARTx_Receive(void *data, uint32_t num,
                                   UARTx_Resources *uart_resources)
 {
-    if (!uart_resources->initialized) {
-        return ARM_DRIVER_ERROR;
-    }
-
     nrfx_err_t err_code = nrfx_uarte_rx(&uart_resources->uarte, data, num);
     if (err_code == NRFX_ERROR_BUSY) {
         return ARM_DRIVER_ERROR_BUSY;
