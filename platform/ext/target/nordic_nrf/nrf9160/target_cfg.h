@@ -20,7 +20,7 @@
 
 #include "tfm_plat_defs.h"
 
-#define TFM_DRIVER_STDIO    Driver_USART1
+#define TFM_DRIVER_STDIO    Driver_USART0
 #define NS_DRIVER_STDIO     Driver_USART0
 
 /**
@@ -39,42 +39,11 @@ struct memory_region_limits {
 };
 
 /**
- * \brief Holds the data necessary to do isolation for a specific peripheral.
- */
-struct tfm_spm_partition_platform_data_t
-{
-    uint32_t periph_start;
-    uint32_t periph_limit;
-};
-
-/**
- * \brief Configures memory permissions via the System Protection Unit.
+ * \brief Configures the Security Protection Unit.
  *
- * \return Returns values as specified by the \ref tfm_plat_err_t
+ * \return  Returns error code.
  */
-enum tfm_plat_err_t spu_init_cfg(void);
-
-/**
- * \brief Configures peripheral permissions via the System Protection Unit.
- *
- * The function does the following:
- * - grants Non-Secure access to nRF peripherals that are not Secure-only
- * - grants Non-Secure access to DDPI channels
- * - grants Non-Secure access to GPIO pins
- *
- * \return Returns values as specified by the \ref tfm_plat_err_t
- */
-enum tfm_plat_err_t spu_periph_init_cfg(void);
-
-/**
- * \brief Restrict access to peripheral to secure
- */
-void spu_periph_configure_to_secure(uint32_t periph_num);
-
-/**
- * \brief Allow non-secure access to peripheral
- */
-void spu_periph_configure_to_non_secure(uint32_t periph_num);
+int32_t spu_init_cfg(void);
 
 /**
  * \brief Clears SPU interrupt.
