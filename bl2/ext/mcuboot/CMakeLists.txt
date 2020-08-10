@@ -188,10 +188,10 @@ endif()
 compiler_generate_binary_output(${PROJECT_NAME} ${PROJECT_BINARY_DIR})
 
 #Generate intel hex file from axf
-compiler_generate_hex_output(${PROJECT_NAME})
+compiler_generate_hex_output(${PROJECT_NAME} ${PROJECT_BINARY_DIR})
 
 #Generate elf file from axf
-compiler_generate_elf_output(${PROJECT_NAME})
+compiler_generate_elf_output(${PROJECT_NAME} ${PROJECT_BINARY_DIR})
 
 message("- MCUBOOT_REPO: '${MCUBOOT_REPO}'.")
 message("- MCUBOOT_IMAGE_NUMBER: '${MCUBOOT_IMAGE_NUMBER}'.")

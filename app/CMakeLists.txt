@@ -301,10 +301,10 @@ function(set_up_app_build)
 	compiler_generate_binary_output(${EXE_NAME} ${PROJECT_BINARY_DIR})
 
 	#Generate intel hex file from axf
-	compiler_generate_hex_output(${EXE_NAME})
+	compiler_generate_hex_output(${EXE_NAME} ${PROJECT_BINARY_DIR})
 
 	#Generate elf file from axf
-	compiler_generate_elf_output(${EXE_NAME})
+	compiler_generate_elf_output(${EXE_NAME} ${PROJECT_BINARY_DIR})
 
 	#Generate MCUBoot compatible payload
 	if (BL2)
