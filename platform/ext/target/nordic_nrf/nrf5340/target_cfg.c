@@ -24,17 +24,6 @@
 #include <nrfx.h>
 
 
-struct tfm_spm_partition_platform_data_t tfm_peripheral_timer0 = {
-        NRF_TIMER0_S_BASE,
-        NRF_TIMER0_S_BASE + (sizeof(NRF_TIMER_Type) - 1),
-};
-
-struct tfm_spm_partition_platform_data_t tfm_peripheral_std_uart = {
-        NRF_UARTE0_S_BASE,
-        NRF_UARTE0_S_BASE + (sizeof(NRF_UARTE_Type) - 1),
-};
-
-
 /* The section names come from the scatter file */
 REGION_DECLARE(Load$$LR$$, LR_NS_PARTITION, $$Base);
 REGION_DECLARE(Load$$LR$$, LR_VENEER, $$Base);
