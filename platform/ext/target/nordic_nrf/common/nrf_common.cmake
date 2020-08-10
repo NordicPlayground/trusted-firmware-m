@@ -80,9 +80,10 @@ if (NOT DEFINED BUILD_NATIVE_DRIVERS)
 elseif(BUILD_NATIVE_DRIVERS)
   list(APPEND ALL_SRC_C "${NRFX_DIR}/drivers/src/nrfx_uarte.c"
                         "${NRFX_DIR}/drivers/src/nrfx_nvmc.c"
-                        "${NRF_COMMON_DIR}/nrfx_glue.c")
-  list(APPEND ALL_SRC_C_S "${NRF_COMMON_DIR}/native_drivers/mpu_armv8m_drv.c"
-                          "${NRF_COMMON_DIR}/native_drivers/spu.c")
+                        "${NRF_COMMON_DIR}/nrfx_glue.c"
+                        "${NRF_COMMON_DIR}/native_drivers/mpu_armv8m_drv.c"
+                        "${NRF_COMMON_DIR}/native_drivers/spu.c"
+                        )
 endif()
 
 if (NOT DEFINED BUILD_TIME)
