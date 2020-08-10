@@ -34,10 +34,6 @@
 
 #include <RTE_Device.h>
 
-#if RTE_FLASH0
-#define NRFX_NVMC_ENABLED 1
-#endif
-
 #if RTE_USART0 || RTE_USART1 || RTE_USART2 || RTE_USART3
 #define NRFX_UARTE_ENABLED 1
 #endif
