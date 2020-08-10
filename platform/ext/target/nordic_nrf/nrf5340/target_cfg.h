@@ -39,15 +39,6 @@ struct memory_region_limits {
 };
 
 /**
- * \brief Holds the data necessary to do isolation for a specific peripheral.
- */
-struct tfm_spm_partition_platform_data_t
-{
-    uint32_t periph_start;
-    uint32_t periph_limit;
-};
-
-/**
  * \brief Configures memory permissions via the System Protection Unit.
  *
  * \return  Returns error code.
