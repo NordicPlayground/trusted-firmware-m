@@ -252,14 +252,10 @@ endif()
 #Collect executables to common location: build/install/outputs/
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.axf
 			  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin
-			  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.hex
-			  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf
 		DESTINATION outputs/${TARGET_PLATFORM}/)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.axf
 			  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin
-			  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.hex
-			  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.elf
 		DESTINATION outputs/fvp/)
 
 #Finally let cmake system apply changes after the whole project is defined.
