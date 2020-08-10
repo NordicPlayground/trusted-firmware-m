@@ -30,8 +30,8 @@ struct tfm_spm_partition_platform_data_t tfm_peripheral_timer0 = {
 };
 
 struct tfm_spm_partition_platform_data_t tfm_peripheral_std_uart = {
-        NRF_UARTE1_S_BASE,
-        NRF_UARTE1_S_BASE + (sizeof(NRF_UARTE_Type) - 1),
+        NRF_UARTE0_S_BASE,
+        NRF_UARTE0_S_BASE + (sizeof(NRF_UARTE_Type) - 1),
 };
 
 
