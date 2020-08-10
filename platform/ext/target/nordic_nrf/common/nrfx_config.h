@@ -54,10 +54,6 @@
 #define NRFX_UARTE3_ENABLED 1
 #endif
 
-#if (__DOMAIN_NS == 1)
-#define NRF_TRUSTZONE_NONSECURE
-#endif
-
 /*
  * For chips with TrustZone support, MDK provides CMSIS-Core peripheral
  * accessing symbols in two flavors, with secure and non-secure base address
