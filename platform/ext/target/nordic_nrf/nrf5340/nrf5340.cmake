@@ -33,8 +33,7 @@ endif()
 if (NOT DEFINED BUILD_RETARGET)
   message(FATAL_ERROR "Configuration variable BUILD_RETARGET (true|false) is undefined!")
 elseif(BUILD_RETARGET)
-  message(WARNING "BUILD_RETARGET not implemented.")
-  #list(APPEND ALL_SRC_C "${NRF5340_DIR}/retarget/platform_retarget_dev.c")
+  # Nothing needed.
 endif()
 
 if (NOT DEFINED BUILD_STARTUP)
