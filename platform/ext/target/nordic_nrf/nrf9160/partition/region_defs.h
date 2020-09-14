@@ -104,10 +104,7 @@
 #define S_CODE_LIMIT    (S_CODE_START + S_CODE_SIZE - 1)
 
 #define S_DATA_START    (S_RAM_ALIAS(0x0))
-/* Assign to SPE the minimum amount of RAM (aligned to the SPU region boundary)
- * that is needed for the most demanding configuration, which turns out to be
- * the RegressionIPC one. */
-#define S_DATA_SIZE     0x16000 /* 88 KB */
+#define S_DATA_SIZE     ((TOTAL_RAM_SIZE / 2) - 0x4000) /* 112 KB */
 #define S_DATA_LIMIT    (S_DATA_START + S_DATA_SIZE - 1)
 
 /* The CMSE veneers shall be placed in an NSC region
@@ -131,8 +128,8 @@
 #define NS_CODE_SIZE    (IMAGE_NS_CODE_SIZE)
 #define NS_CODE_LIMIT   (NS_CODE_START + NS_CODE_SIZE - 1)
 
-#define NS_DATA_START   (NS_RAM_ALIAS(S_DATA_SIZE))
-#define NS_DATA_SIZE    (TOTAL_RAM_SIZE - S_DATA_SIZE)
+#define NS_DATA_START   (NS_RAM_ALIAS(TOTAL_RAM_SIZE / 2) + 0xC000) /* 64 KB are reserved for shared RAM */
+#define NS_DATA_SIZE    ((TOTAL_RAM_SIZE / 2) - 0xC000) /* 80 KB */
 #define NS_DATA_LIMIT   (NS_DATA_START + NS_DATA_SIZE - 1)
 
 /* NS partition information is used for SPU configuration */
