@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2020, Arm Limited. All rights reserved.
+# Copyright (c) 2020, Cypress Semiconductor Corporation. All rights reserved.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 #
@@ -148,6 +149,8 @@ elseif (BUILD_TARGET_CFG)
         list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_b1/services/src/tfm_platform_system.c")
         list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_b1/services/src/tfm_ioctl_s_api.c")
     endif()
+  list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/common/tfm_hal_its.c")
+  list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/common/tfm_hal_ps.c")
     list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/common/tfm_platform.c")
     embedded_include_directories(PATH "${PLATFORM_DIR}/common" ABSOLUTE)
 endif()
@@ -216,10 +219,9 @@ elseif (BUILD_FLASH)
     embedded_include_directories(PATH "${PLATFORM_DIR}/driver" ABSOLUTE)
 endif()
 
-#Default for Musca-B1 is to disable the CC312 due to Windows build not being
-#supported.
+#The CC312 is enabled by default
 if (NOT DEFINED CRYPTO_HW_ACCELERATOR)
-    set (CRYPTO_HW_ACCELERATOR OFF)
+    set (CRYPTO_HW_ACCELERATOR ON)
 endif()
 
 if (NOT DEFINED CRYPTO_HW_ACCELERATOR_OTP_STATE)

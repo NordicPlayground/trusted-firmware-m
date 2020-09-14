@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2018 Arm Limited. All rights reserved.
+ * Copyright (c) 2020 Cypress Semiconductor Corporation. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,12 +64,12 @@
 
 /* area for BL2 code protected by hdp */
 #define FLASH_AREA_BL2_OFFSET           (0x0)
-#define FLASH_AREA_BL2_SIZE             (0xF000)
+#define FLASH_AREA_BL2_SIZE             (0xF800)
 /* HDP area end at this address */
 #define FLASH_BL2_HDP_END               (FLASH_AREA_BL2_OFFSET+FLASH_AREA_BL2_SIZE-1)
 /* area for BL2 code not protected by hdp */
 #define FLASH_AREA_BL2_NOHDP_OFFSET     (FLASH_AREA_BL2_OFFSET+FLASH_AREA_BL2_SIZE)
-#define FLASH_AREA_BL2_NOHDP_SIZE       (0x1000)
+#define FLASH_AREA_BL2_NOHDP_SIZE       (0x800)
 
 /* scratch area */
 #define FLASH_AREA_SCRATCH_OFFSET       (FLASH_AREA_BL2_NOHDP_OFFSET+FLASH_AREA_BL2_NOHDP_SIZE)
@@ -171,6 +172,7 @@
 #define PS_SECTOR_SIZE      FLASH_AREA_IMAGE_SECTOR_SIZE
 #define PS_SECTORS_PER_BLOCK   (0x1)
 #define PS_FLASH_AREA_SIZE     FLASH_PS_AREA_SIZE
+#define PS_RAM_FS_SIZE         PS_FLASH_AREA_SIZE
 
 /* The sectors must be in consecutive memory location */
 #define PS_NBR_OF_SECTORS  (FLASH_PS_AREA_SIZE / PS_SECTOR_SIZE)
@@ -185,6 +187,7 @@
 
 #define ITS_FLASH_AREA_ADDR     FLASH_ITS_AREA_OFFSET
 #define ITS_FLASH_AREA_SIZE     FLASH_ITS_AREA_SIZE
+#define ITS_RAM_FS_SIZE         ITS_FLASH_AREA_SIZE
 
 #define ITS_SECTOR_SIZE         FLASH_AREA_IMAGE_SECTOR_SIZE
 /* The sectors must be in consecutive memory location */
@@ -195,7 +198,12 @@
 /* Specifies the smallest flash programmable unit in bytes */
 #define ITS_FLASH_PROGRAM_UNIT  (0x8)
 /* The maximum asset size to be stored in the ITS area */
+#ifdef PSA_API_TEST_CRYPTO
+/* Need larger asset size for PSA API Crypto compliance suite */
+#define ITS_MAX_ASSET_SIZE      (1229)
+#else
 #define ITS_MAX_ASSET_SIZE      (512)
+#endif
 /* The maximum number of assets to be stored in the ITS area */
 #define ITS_NUM_ASSETS          (10)
 

@@ -15,6 +15,7 @@
  */
 
 #include "cmsis.h"
+#include "region.h"
 #include "target_cfg.h"
 #include "Driver_MPC.h"
 #include "region_defs.h"
@@ -23,10 +24,6 @@
 /*  fix me to move to a CMSIS driver */
 #include "stm32l5xx_hal.h"
 #include <stdio.h>
-/* Macros to pick linker symbols */
-#define REGION(a, b, c) a##b##c
-#define REGION_NAME(a, b, c) REGION(a, b, c)
-#define REGION_DECLARE(a, b, c) extern uint32_t REGION_NAME(a, b, c)
 
 /* The section names come from the scatter file */
 REGION_DECLARE(Load$$LR$$, LR_NS_PARTITION, $$Base);
@@ -76,13 +73,14 @@ enum tfm_plat_err_t enable_fault_handlers(void)
 }
 
 /*----------------- NVIC interrupt target state to NS configuration ----------*/
-void nvic_interrupt_target_state_cfg()
+enum tfm_plat_err_t nvic_interrupt_target_state_cfg()
 {
   /* Target every interrupt to NS; unimplemented interrupts will be WI */
   for (uint8_t i = 0; i < sizeof(NVIC->ITNS) / sizeof(NVIC->ITNS[0]); i++)
   {
     NVIC->ITNS[i] = 0xFFFFFFFF;
   }
+  return TFM_PLAT_ERR_SUCCESS;
 }
 void system_reset_cfg(void)
 {

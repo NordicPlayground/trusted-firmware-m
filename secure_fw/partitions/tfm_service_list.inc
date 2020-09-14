@@ -16,15 +16,14 @@
 #include "secure_fw/partitions/crypto/psa_manifest/tfm_crypto.h"
 #include "secure_fw/partitions/platform/psa_manifest/tfm_platform.h"
 #include "secure_fw/partitions/initial_attestation/psa_manifest/tfm_initial_attestation.h"
-#include "test/test_services/tfm_core_test/psa_manifest/tfm_test_core.h"
-#include "test/test_services/tfm_core_test_2/psa_manifest/tfm_test_core_2.h"
-#include "test/test_services/tfm_secure_client_service/psa_manifest/tfm_test_client_service.h"
-#include "test/test_services/tfm_ipc_service/psa_manifest/tfm_ipc_service_partition.h"
-#include "test/test_services/tfm_ipc_client/psa_manifest/tfm_ipc_client_partition.h"
-#include "test/test_services/tfm_irq_test_service_1/psa_manifest/tfm_irq_test_service_1.h"
-#include "test/test_services/tfm_ps_test_service/psa_manifest/tfm_ps_test_service.h"
-#include "test/test_services/tfm_secure_client_2/psa_manifest/tfm_secure_client_2.h"
-#include "test/test_services/tfm_multi_core_test/psa_manifest/tfm_multi_core_test.h"
+#include "../tf-m-tests/test/test_services/tfm_core_test/psa_manifest/tfm_test_core.h"
+#include "../tf-m-tests/test/test_services/tfm_core_test_2/psa_manifest/tfm_test_core_2.h"
+#include "../tf-m-tests/test/test_services/tfm_secure_client_service/psa_manifest/tfm_test_client_service.h"
+#include "../tf-m-tests/test/test_services/tfm_ipc_service/psa_manifest/tfm_ipc_service_partition.h"
+#include "../tf-m-tests/test/test_services/tfm_ipc_client/psa_manifest/tfm_ipc_client_partition.h"
+#include "../tf-m-tests/test/test_services/tfm_irq_test_service_1/psa_manifest/tfm_irq_test_service_1.h"
+#include "../tf-m-tests/test/test_services/tfm_ps_test_service/psa_manifest/tfm_ps_test_service.h"
+#include "../tf-m-tests/test/test_services/tfm_secure_client_2/psa_manifest/tfm_secure_client_2.h"
 
 const struct tfm_spm_service_db_t service_db[] =
 {
@@ -503,28 +502,6 @@ const struct tfm_spm_service_db_t service_db[] =
     },
 #endif /* TFM_PARTITION_TEST_SECURE_SERVICES */
 
-#ifdef TFM_MULTI_CORE_TEST
-    /******** TFM_SP_MULTI_CORE_TEST ********/
-    {
-        .name = "MULTI_CORE_MULTI_CLIENT_CALL_TEST_0",
-        .partition_id = TFM_SP_MULTI_CORE_TEST,
-        .signal = MULTI_CORE_MULTI_CLIENT_CALL_TEST_0_SIGNAL,
-        .sid = 0x0000F100,
-        .non_secure_client = true,
-        .version = 1,
-        .version_policy = TFM_VERSION_POLICY_STRICT
-    },
-    {
-        .name = "MULTI_CORE_MULTI_CLIENT_CALL_TEST_1",
-        .partition_id = TFM_SP_MULTI_CORE_TEST,
-        .signal = MULTI_CORE_MULTI_CLIENT_CALL_TEST_1_SIGNAL,
-        .sid = 0x0000F101,
-        .non_secure_client = true,
-        .version = 1,
-        .version_policy = TFM_VERSION_POLICY_STRICT
-    },
-#endif /* TFM_MULTI_CORE_TEST */
-
 };
 
 /**************************************************************************/
@@ -538,35 +515,30 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_PROTECTED_STORAGE */
@@ -577,28 +549,24 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_INTERNAL_TRUSTED_STORAGE */
@@ -609,7 +577,6 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_CRYPTO */
@@ -620,21 +587,18 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_PLATFORM */
@@ -645,21 +609,18 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_INITIAL_ATTESTATION */
@@ -670,70 +631,60 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_CORE */
@@ -744,42 +695,36 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_CORE */
@@ -790,7 +735,6 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_SECURE_SERVICES */
@@ -801,35 +745,30 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_CORE_IPC */
@@ -840,35 +779,30 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_CORE_IPC */
@@ -879,14 +813,12 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
     {
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_ENABLE_IRQ_TEST */
@@ -897,7 +829,6 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_PS */
@@ -908,28 +839,9 @@ struct tfm_spm_service_t service[] =
         .service_db = NULL,
         .partition = NULL,
         .handle_list = {0},
-        .msg_queue = {0},
         .list = {0},
     },
 #endif /* TFM_PARTITION_TEST_SECURE_SERVICES */
-
-#ifdef TFM_MULTI_CORE_TEST
-    /******** TFM_SP_MULTI_CORE_TEST ********/
-    {
-        .service_db = NULL,
-        .partition = NULL,
-        .handle_list = {0},
-        .msg_queue = {0},
-        .list = {0},
-    },
-    {
-        .service_db = NULL,
-        .partition = NULL,
-        .handle_list = {0},
-        .msg_queue = {0},
-        .list = {0},
-    },
-#endif /* TFM_MULTI_CORE_TEST */
 
 };
 

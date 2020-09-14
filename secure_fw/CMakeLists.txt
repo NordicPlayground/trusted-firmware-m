@@ -14,7 +14,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../cmake)
 
 set(SECURE_FW_DIR "${CMAKE_CURRENT_LIST_DIR}")
 set(TFM_ROOT_DIR  "${SECURE_FW_DIR}/..")
-set(TEST_DIR      "${TFM_ROOT_DIR}/test")
 set(INTERFACE_DIR "${TFM_ROOT_DIR}/interface")
 
 #Include common stuff to control cmake.
@@ -99,12 +98,10 @@ endif()
 
 #Involve all IPC related sources in ipc's CMakeLists.inc, and switch core between IPC and Library.
 if(TFM_PSA_API)
-	include(${SECURE_FW_DIR}/spm/model_ipc/CMakeLists.inc)
+	include(${SECURE_FW_DIR}/spm/cmsis_psa/CMakeLists.inc)
 else()
-	include(${SECURE_FW_DIR}/spm/model_func/CMakeLists.inc)
+	include(${SECURE_FW_DIR}/spm/cmsis_func/CMakeLists.inc)
 endif()
-
-include(${SECURE_FW_DIR}/spm/arch/CMakeLists.inc)
 
 set(BUILD_CMSIS_CORE On)
 set(BUILD_RETARGET On)
@@ -279,6 +276,11 @@ function(set_up_secure_fw_build)
 		embedded_set_target_link_defines(TARGET ${EXE_NAME} DEFINES "PSA_API_TEST_IPC")
 	endif()
 
+	#Add the PSA API CRYPTO compliance test define if enabled
+	if(PSA_API_TEST_CRYPTO)
+		add_definitions(-DPSA_API_TEST_CRYPTO)
+	endif()
+
 	target_link_libraries(${EXE_NAME} libtfmsprt)
 
 	embedded_set_target_link_defines(TARGET ${EXE_NAME} DEFINES "TFM_LVL=${TFM_LVL}")
@@ -374,6 +376,9 @@ function(set_up_secure_fw_build)
 						${INTERFACE_INC_DIR}/tfm_ns_interface.h
 						${INTERFACE_INC_DIR}/tfm_ns_svc.h
 			DESTINATION ${EXPORT_INC_DIR})
+
+	install(FILES       ${INTERFACE_INC_DIR}/ext/tz_context.h
+			DESTINATION ${EXPORT_INC_DIR}/ext)
 
 	if (TFM_MULTI_CORE_TOPOLOGY)
 		install(FILES       ${INTERFACE_INC_DIR}/tfm_multi_core_api.h
@@ -513,7 +518,7 @@ function(set_up_secure_fw_build)
 endfunction()
 
 #Adds the test directory
-add_subdirectory(${TFM_ROOT_DIR}/test ${CMAKE_BINARY_DIR}/test/secure_test)
+add_subdirectory(${TEST_DIR} ${CMAKE_BINARY_DIR}/test/secure_test)
 
 #Add the crypto library target
 if (TFM_PARTITION_CRYPTO)

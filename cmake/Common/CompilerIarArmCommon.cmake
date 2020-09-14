@@ -141,6 +141,7 @@ function(compiler_set_cmse_output TARGET FILE_PATH)
 	set_property(TARGET ${TARGET} APPEND_STRING PROPERTY LINK_FLAGS " --import_cmse_lib_out=${FILE_PATH}")
 	#Tell cmake cmse output is a generated object file.
 	SET_SOURCE_FILES_PROPERTIES("${FILE_PATH}" PROPERTIES EXTERNAL_OBJECT true GENERATED true)
+	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E echo "" BYPRODUCTS ${FILE_PATH})
 	#Tell cmake cmse output shall be removed by clean target.
 	get_directory_property(_ADDITIONAL_MAKE_CLEAN_FILES DIRECTORY "./" ADDITIONAL_MAKE_CLEAN_FILES)
 	set_directory_properties(PROPERTY ADDITIONAL_MAKE_CLEAN_FILES "${_ADDITIONAL_MAKE_CLEAN_FILES} ${FILE_PATH}")
@@ -183,6 +184,14 @@ endfunction()
 
 function(compiler_generate_binary_output TARGET)
 	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_IARARM_IELFTOOL} ARGS --silent --bin $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.bin)
+endfunction()
+
+function(compiler_generate_hex_output TARGET)
+	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_IARARM_IELFTOOL} ARGS --silent --ihex $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex)
+endfunction()
+
+function(compiler_generate_elf_output TARGET)
+	add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_IARARM_IELFTOOL} ARGS --silent $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.elf)
 endfunction()
 
 # Function for creating a new target that preprocesses a .c file

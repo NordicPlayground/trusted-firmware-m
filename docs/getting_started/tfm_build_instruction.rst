@@ -26,9 +26,9 @@ Getting the source-code
 =======================
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     git clone https://git.trustedfirmware.org/TF-M/trusted-firmware-m.git
-    git clone https://github.com/ARMmbed/mbed-crypto.git -b mbedcrypto-3.0.1
+    git clone https://github.com/ARMmbed/mbedtls.git -b mbedtls-2.23.0
     git clone https://git.trustedfirmware.org/TF-M/tf-m-tests.git
     git clone https://github.com/JuulLabs-OSS/mcuboot.git -b v1.6.0
 
@@ -44,7 +44,7 @@ Build steps for the AN521 target platform:
 ==========================================
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_build
     cd cmake_build
@@ -57,7 +57,7 @@ Regression Tests for the AN521 target platform
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_test
     cd cmake_test
@@ -68,7 +68,7 @@ Regression Tests for the AN521 target platform
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_test
     cd cmake_test
@@ -97,7 +97,7 @@ tests for the Crypto service only:
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_psa_test
     cd cmake_psa_test
@@ -120,7 +120,7 @@ given in the PSA FF compliance tests README.
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     python tools/tfm_parse_manifest_list.py -m tools/tfm_psa_ff_test_manifest_list.yaml append
 
@@ -136,7 +136,7 @@ config :
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_psa_test
     cd cmake_psa_test
@@ -242,7 +242,7 @@ line arguments:
             ``-DTARGET_PLATFORM=AN519``
           - Arm SSE-123 Example Subsystem for MPS2+ (AN539)
             ``-DTARGET_PLATFORM=AN539``
-          - Cortex-M55 SSE-300 subsystem for MPS2+ FVP
+          - Corstone-300 Ecosystem FVP (Cortex-M55 SSE-300 MPS2+)
             ``-DTARGET_PLATFORM=FVP_SSE300_MPS2``
           - Musca-A test chip board (Cortex-M33 SSE-200 subsystem)
             ``-DTARGET_PLATFORM=MUSCA_A``
@@ -279,9 +279,9 @@ line arguments:
          - ``Relwithdebinfo``
          - ``Minsizerel``
    * - -DMBEDCRYPTO_DEBUG=<ON|OFF>
-     - Enables debug symbols for Mbed Crypto library. If a cryptographic
-       accelerator is enabled then this will also enable debug symbols and
-       logging for any accelerator libraries.
+     - Enables debug symbols for Mbed Crypto(MbedTLS) library. If a
+       cryptographic accelerator is enabled then this will also enable
+       debug symbols and logging for any accelerator libraries.
    * - -DBUILD_DWARF_VERSION=<dwarf version>
      - Configures DWARF version.
        The possible values are:

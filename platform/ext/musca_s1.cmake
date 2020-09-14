@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------------------
 # Copyright (c) 2018-2020, Arm Limited. All rights reserved.
+# Copyright (c) 2020, Cypress Semiconductor Corporation. All rights reserved.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 #
@@ -49,6 +50,10 @@ if (BL2)
     if (${MCUBOOT_SIGNATURE_TYPE} STREQUAL "RSA-3072")
         add_definitions(-DMCUBOOT_SIGN_RSA_LEN=3072)
     endif()
+
+    list(APPEND ALL_SRC_C_BL2 "${PLATFORM_DIR}/target/musca_s1/CMSIS_Driver/Driver_Flash_MRAM.c")
+    list(APPEND ALL_SRC_C_BL2 "${PLATFORM_DIR}/target/musca_s1/Native_Driver/musca_s1_scc_drv.c")
+    list(APPEND ALL_SRC_C_BL2 "${PLATFORM_DIR}/target/musca_s1/Native_Driver/cache_drv.c")
 endif()
 
 embedded_include_directories(PATH "${PLATFORM_DIR}/cmsis" ABSOLUTE)
@@ -97,6 +102,8 @@ if (NOT DEFINED BUILD_NATIVE_DRIVERS)
 elseif (BUILD_NATIVE_DRIVERS)
     list(APPEND ALL_SRC_C "${PLATFORM_DIR}/target/musca_s1/Native_Driver/uart_pl011_drv.c")
     list(APPEND ALL_SRC_C "${PLATFORM_DIR}/target/musca_s1/Native_Driver/ppc_sse200_drv.c")
+    list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/Native_Driver/musca_s1_scc_drv.c")
+    list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/Native_Driver/cache_drv.c")
     list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/Native_Driver/gpio_cmsdk_drv.c")
     list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/Native_Driver/mpc_sie200_drv.c")
 endif()
@@ -140,6 +147,8 @@ elseif (BUILD_TARGET_CFG)
         list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/services/src/tfm_platform_system.c")
         list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/services/src/tfm_ioctl_s_api.c")
     endif()
+  list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/common/tfm_hal_its.c")
+  list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/common/tfm_hal_ps.c")
     list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/common/tfm_platform.c")
     embedded_include_directories(PATH "${PLATFORM_DIR}/common" ABSOLUTE)
 endif()
@@ -197,7 +206,7 @@ endif()
 if (NOT DEFINED BUILD_FLASH)
     message(FATAL_ERROR "Configuration variable BUILD_FLASH (true|false) is undefined!")
 elseif (BUILD_FLASH)
-    list(APPEND ALL_SRC_C "${PLATFORM_DIR}/target/musca_s1/CMSIS_Driver/Driver_Flash_MRAM.c")
+    list(APPEND ALL_SRC_C_S "${PLATFORM_DIR}/target/musca_s1/CMSIS_Driver/Driver_Flash_MRAM.c")
     # As the PS area is going to be in RAM, it is required to set
     # PS_CREATE_FLASH_LAYOUT to be sure the PS service knows that when it
     # starts the PS area does not contain any valid PS flash layout and it
@@ -208,9 +217,9 @@ elseif (BUILD_FLASH)
     embedded_include_directories(PATH "${PLATFORM_DIR}/driver" ABSOLUTE)
 endif()
 
-#The CC312 is disabled by default
+#The CC312 is enabled by default
 if (NOT DEFINED CRYPTO_HW_ACCELERATOR)
-    set (CRYPTO_HW_ACCELERATOR OFF)
+    set (CRYPTO_HW_ACCELERATOR ON)
 endif()
 
 if (NOT DEFINED CRYPTO_HW_ACCELERATOR_OTP_STATE)

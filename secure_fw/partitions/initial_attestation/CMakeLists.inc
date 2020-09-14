@@ -37,17 +37,17 @@ if (NOT DEFINED ATTEST_CLAIM_VALUE_CHECK)
 endif()
 
 list(APPEND ATTEST_C_SRC
-	"${INITIAL_ATTESTATION_DIR}/tfm_attestation_secure_api.c"
-	"${INITIAL_ATTESTATION_DIR}/tfm_attestation.c"
-	"${INITIAL_ATTESTATION_DIR}/tfm_attestation_req_mngr.c"
-	"${INITIAL_ATTESTATION_DIR}/attestation_core.c"
-	"${INITIAL_ATTESTATION_DIR}/attest_token.c"
+	"${INITIAL_ATTESTATION_DIR}/tfm_attest_secure_api.c"
+	"${INITIAL_ATTESTATION_DIR}/tfm_attest.c"
+	"${INITIAL_ATTESTATION_DIR}/tfm_attest_req_mngr.c"
+	"${INITIAL_ATTESTATION_DIR}/attest_core.c"
+	"${INITIAL_ATTESTATION_DIR}/attest_token_encode.c"
 	)
 
 if (SYMMETRIC_INITIAL_ATTESTATION)
 	list(APPEND ATTEST_C_SRC "${INITIAL_ATTESTATION_DIR}/attest_symmetric_key.c")
 else()
-	list(APPEND ATTEST_C_SRC "${INITIAL_ATTESTATION_DIR}/attestation_key.c")
+	list(APPEND ATTEST_C_SRC "${INITIAL_ATTESTATION_DIR}/attest_asymmetric_key.c")
 endif()
 
 if (ATTEST_INCLUDE_OPTIONAL_CLAIMS)
@@ -79,7 +79,7 @@ embedded_include_directories(PATH ${TFM_ROOT_DIR}/interface/include ABSOLUTE)
 embedded_include_directories(PATH ${TFM_ROOT_DIR}/platform/ext/common ABSOLUTE)
 embedded_include_directories(PATH ${TFM_ROOT_DIR}/platform/include ABSOLUTE)
 embedded_include_directories(PATH ${TFM_ROOT_DIR}/bl2/include ABSOLUTE)
-embedded_include_directories(PATH ${TFM_ROOT_DIR}/secure_fw/core/include ABSOLUTE)
+embedded_include_directories(PATH ${TFM_ROOT_DIR}/secure_fw/partitions/lib/sprt/include ABSOLUTE)
 embedded_include_directories(PATH ${TFM_ROOT_DIR}/secure_fw/spm ABSOLUTE)
 embedded_include_directories(PATH ${TFM_ROOT_DIR}/lib/ext/qcbor/inc ABSOLUTE)
 embedded_include_directories(PATH ${TFM_ROOT_DIR}/lib/ext/t_cose/inc ABSOLUTE)

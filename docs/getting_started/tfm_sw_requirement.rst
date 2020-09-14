@@ -126,13 +126,22 @@ External dependencies
 
 In order to build TF-M the following external projects are required:
 
-    - `Mbed Crypto library <https://github.com/ARMmbed/mbed-crypto>`__ v3.0.1
-      is used as crypto library on the secure side
+    - `Mbed-crypto(MbedTLS) library <https://github.com/ARMmbed/mbedtls>`__ v2.23.0
+      is used as crypto library on the secure side.
     - `MCUboot <https://github.com/JuulLabs-OSS/mcuboot>`__ v1.6.0 is used as
       the default bootloader in TF-M
 
 And the following TF-M projects as well:
+
     - `TF-M tests <https://git.trustedfirmware.org/TF-M/tf-m-tests.git>`__
+
+.. Note::
+
+    The development of Mbed-crypto has moved to MbedTLS project and hence
+    wherever mbed-crypto is referred to in TF-M, it refers to the component
+    within MbedTLS project. More details of the move can be found
+    `here <https://github.com/ARMmbed/mbed-crypto/issues/374>`__.
+
 
 Each of the listed dependencies should be placed in a common root directory
 with trustedfirmware-m
@@ -140,7 +149,7 @@ with trustedfirmware-m
 .. code-block:: bash
 
     .
-    ├── mbed-crypto
+    ├── mbedtls
     ├── mcuboot
     ├── tf-m-tests
     └── trusted-firmware-m
@@ -170,11 +179,11 @@ Install the following tools:
 - CMake (see the "Supported CMake versions" chapter)
 - GNU Make (see the "Supported make versions" chapter)
 - Python3 and the pip package manager (from Python 3.4 it's included)
-- Python3 packages: *cryptography, pyasn1, yaml, jinja2 v2.10, cbor v1.0.0*
+- Python3 packages: *cryptography, pyasn1, yaml, jinja2 v2.10, cbor v1.0.0, click, imgtool v1.6.0*
 
   .. code-block:: bash
 
-    pip3 install --user cryptography pyasn1 pyyaml jinja2 cbor
+    pip3 install --user cryptography pyasn1 pyyaml jinja2 cbor click imgtool
 
 - SRecord v1.58 (for Musca test chip boards)
 
@@ -230,11 +239,11 @@ Install the following tools:
   installation.
 - Python3 `(native Windows version) <https://www.python.org/downloads/>`__ and
   the pip package manager (from Python 3.4 it's included)
-- Python3 packages: *cryptography, pyasn1, yaml, jinja2 v2.10, cbor v1.0.0*
+- Python3 packages: *cryptography, pyasn1, yaml, jinja2 v2.10, cbor v1.0.0, click imgtool v1.6.0*
 
   .. code-block:: bash
 
-    pip3 install --user cryptography pyasn1 pyyaml jinja2 cbor
+    pip3 install --user cryptography pyasn1 pyyaml jinja2 cbor click imgtool
 
 - `SRecord v1.63 <https://sourceforge.net/projects/srecord/>`__ (for Musca test
   chip boards)
@@ -492,6 +501,8 @@ To build the TF-M firmware the following tools are needed:
    "jinja2",,"Firmware"
    "cryptography",,"Firmware"
    "cbor",,"Firmware"
+   "click",,"Firmware"
+   "imgtool",,"Firmware"
    "Doxygen",">1.8","Reference manual"
    "Sphinx",">1.4","User Guide"
    "sphinxcontrib-plantuml",,"User Guide"
@@ -542,11 +553,15 @@ Dependency chain:
     fw --> yaml
     fw --> jinja2
     fw --> cbor
+    fw --> click
+    fw --> imgtool
     cryptography --> Python3
     pyasn1 --> Python3
     yaml --> Python3
     jinja2 --> Python3
     cbor --> Python3
+    click --> Python3
+    imgtool --> Python3
 
     [*] --> u_guide
     u_guide --> Sphinx

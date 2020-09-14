@@ -21,6 +21,8 @@ elseif((NOT ${COMPILER} STREQUAL "ARMCLANG") AND (NOT ${COMPILER} STREQUAL "GNUA
 	message(FATAL_ERROR "ERROR: Compiler \"${COMPILER}\" is not supported.")
 endif()
 
+set(TEST_DIR ${CMAKE_SOURCE_DIR}/../tf-m-tests/test)
+
 #Configure the default build type
 set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type (i.e. Debug)")
 
@@ -92,6 +94,12 @@ else()
 	set (TFM_MULTI_CORE_TEST OFF)
 endif()
 
+if(NOT ${COMPILER} STREQUAL "GNUARM")
+	if(CODE_COVERAGE_EN)
+		message(WARNING "CODE COVERAGE for '${COMPILER}' is not supported.")
+	endif()
+endif()
+
 if(${COMPILER} STREQUAL "ARMCLANG")
 	#Use any ARMCLANG version found on PATH. Note: Only versions supported by the
 	#build system will work. A file cmake/Common/CompilerArmClangXY.cmake
@@ -117,9 +125,17 @@ elseif(${COMPILER} STREQUAL "GNUARM")
 	include("Common/${GNUARM_MODULE}")
 
 	set (COMMON_COMPILE_FLAGS -fshort-enums -fshort-wchar -funsigned-char -msoft-float -ffunction-sections -fdata-sections --specs=nano.specs -fno-builtin)
+
+	#Code coverage required
+	if(CODE_COVERAGE_EN)
+		set (CODE_COVERAGE_FLAGS -g)
+	else()
+		unset (CODE_COVERAGE_FLAGS)
+	endif()
+
 	##Shared compiler and linker settings.
 	function(config_setting_shared_compiler_flags tgt)
-		embedded_set_target_compile_flags(TARGET ${tgt} LANGUAGE C APPEND FLAGS -xc -std=c99 ${COMMON_COMPILE_FLAGS} -Wall -Werror -Wno-format -Wno-return-type -Wno-unused-but-set-variable)
+		embedded_set_target_compile_flags(TARGET ${tgt} LANGUAGE C APPEND FLAGS -xc -std=c99 ${COMMON_COMPILE_FLAGS} ${CODE_COVERAGE_FLAGS} -Wall -Werror -Wno-format -Wno-return-type -Wno-unused-but-set-variable)
 	endfunction()
 
 	##Shared linker settings.
@@ -140,7 +156,7 @@ elseif(${COMPILER} STREQUAL "IARARM")
 	set (COMMON_COMPILE_FLAGS -e --dlib_config=full --vla --silent -DNO_TYPEOF --diag_suppress Pe546,Pe940,Pa082,Pa084)
 	##Shared compiler and linker settings.
 	function(config_setting_shared_compiler_flags tgt)
-		embedded_set_target_compile_flags(TARGET ${tgt} LANGUAGE C APPEND FLAGS ${COMMON_COMPILE_FLAGS} "-DImage$$= " "-DLoad$$LR$$= " "-D$$ZI$$Base=$$Base" "-D$$ZI$$Limit=$$Limit" "-D$$RO$$Base=$$Base" "-D$$RO$$Limit=$$Limit" "-D$$RW$$Base=$$Base" "-D$$RW$$Limit=$$Limit" "-D_DATA$$RW$$Base=_DATA$$Base" "-D_DATA$$RW$$Limit=_DATA$$Limit" "-D_DATA$$ZI$$Base=_DATA$$Base" "-D_DATA$$ZI$$Limit=_DATA$$Limit" "-D_STACK$$ZI$$Base=_STACK$$Base" "-D_STACK$$ZI$$Limit=_STACK$$Limit" )
+		embedded_set_target_compile_flags(TARGET ${tgt} LANGUAGE C APPEND FLAGS ${COMMON_COMPILE_FLAGS} )
 	endfunction()
 
 	##Shared linker settings.
@@ -209,7 +225,9 @@ if (TFM_PARTITION_PROTECTED_STORAGE)
 endif()
 
 # Option to demonstrate usage of secure-only peripheral
-set (SECURE_UART1 OFF)
+if (NOT DEFINED SECURE_UART1)
+  set (SECURE_UART1 OFF)
+endif()
 
 if (PLATFORM_SVC_HANDLERS)
 	add_definitions(-DPLATFORM_SVC_HANDLERS)
@@ -312,7 +330,7 @@ if (CORE_IPC)
 	set(TFM_PARTITION_AUDIT_LOG OFF)
 endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/test/TestConfig.cmake)
+include(${TEST_DIR}/TestConfig.cmake)
 
 if (TFM_PARTITION_AUDIT_LOG)
 	add_definitions(-DTFM_PARTITION_AUDIT_LOG)
@@ -521,8 +539,5 @@ if (NOT DEFINED ATTEST_CLAIM_VALUE_CHECK)
 	set(ATTEST_CLAIM_VALUE_CHECK OFF)
 endif()
 
-##Set mbedTLS compiler flags for BL2 bootloader
-set(MBEDCRYPTO_C_FLAGS_BL2 "${CMSE_FLAGS} -D__thumb2__ ${COMMON_COMPILE_FLAGS_STR} -DMBEDTLS_CONFIG_FILE=\\\\\\\"config-rsa.h\\\\\\\" -I${CMAKE_CURRENT_LIST_DIR}/bl2/ext/mcuboot/include")
-if (MCUBOOT_SIGNATURE_TYPE STREQUAL "RSA-3072")
-	string(APPEND MBEDCRYPTO_C_FLAGS_BL2 " -DMCUBOOT_SIGN_RSA_LEN=3072")
-endif()
+##Set common mbedTLS compiler flags for BL2 bootloader
+set(MBEDCRYPTO_C_FLAGS_BL2 "${CMSE_FLAGS} -D__thumb2__ ${COMMON_COMPILE_FLAGS_STR} -DMBEDTLS_CONFIG_FILE=\\\\\\\"config-rsa.h\\\\\\\"")

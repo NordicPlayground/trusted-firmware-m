@@ -14,8 +14,6 @@ Notes for building with IARARM
     Currently the MUSCA_B1, MUSCA_S1 and SSE-200_AWS targets are not supported with IARARM,
     due to lack of testing. The FVP_SSE300_MPS2 target is currently not supported by IARARM.
 
-    bash needs to be installed and used by cmake for the build steps.
-
     cmake needs to be version 3.14 or newer.
 
     The V8M IAR CMSIS_5 RTX libraries in CMSIS_5 5.5.0 has a problem and has been updated in
@@ -45,7 +43,7 @@ Build steps:
 ============
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_build
     cd cmake_build
@@ -58,7 +56,7 @@ Regression Tests for the AN521 target platform
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_test
     cd cmake_test
@@ -69,7 +67,7 @@ Regression Tests for the AN521 target platform
 
 .. code-block:: bash
 
-    cd <TF-M base folder>
+    cd <base folder>
     cd trusted-firmware-m
     mkdir cmake_test
     cd cmake_test

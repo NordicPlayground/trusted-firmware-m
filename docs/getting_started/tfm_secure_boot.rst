@@ -281,7 +281,7 @@ By default, the original MCUBoot from
 in TF-M. The repository must be cloned into the base folder (into which TF-M
 was cloned previously).::
 
-    cd <TF-M base folder>
+    cd <base folder>
     git clone https://github.com/JuulLabs-OSS/mcuboot.git -b v1.6.0
     cd <TF-M build folder>
     cmake -G"Unix Makefiles" -DTARGET_PLATFORM=AN521 -DCOMPILER=ARMCLANG -DMCUBOOT_REPO=UPSTREAM ../
@@ -415,6 +415,28 @@ Compile time switches:
     ``LOG_LEVEL_INFO`` by default. In case of different kinds of ``Release``
     builds its value is set to ``LOG_LEVEL_OFF`` (any other value will be
     overridden).
+- MCUBOOT_ENCRYPT_RSA (default: False):
+    - **True:** Adds encrypted image support in the source and encrypts the
+      resulting image using the ``enc-rsa2048-pub.pem`` key found in the MCUBoot
+      repository.
+    - **False:** Doesn't add encrypted image support and doesn't encrypt the
+      image.
+
+    .. Note::
+        The decryption takes place during the upgrade process, when the images
+        are being moved between the slots. This means that boards that don't
+        already have an image on them with MCUBoot that has been compiled with
+        ``MCUBOOT_ENCRYPT_RSA`` enabled need special treatment. In order to load
+        an encrypted image to such boards, an upgrade needs to be executed. This
+        can be done by using MCUBoot, putting an image in the secondary image
+        area, and setting ``MCUBOOT_ENCRYPT_RSA`` to ``ON``. When using the
+        ``OVERWRITE_ONLY`` upgrade strategy, this is enough. When using
+        ``SWAP``, an image is needed in the primary image area as well, to
+        trigger the update.
+
+    .. Warning::
+        DO NOT use the ``enc-rsa2048-pub.pem`` key in production code, it is
+        exclusively for testing!
 
 Image versioning
 ================
