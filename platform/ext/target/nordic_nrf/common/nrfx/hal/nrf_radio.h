@@ -530,9 +530,7 @@ NRF_STATIC_INLINE uint8_t nrf_radio_dai_get(NRF_RADIO_Type const * p_reg);
  * @retval 1 The payload is greater than PCNF1.MAXLEN.
  */
 NRF_STATIC_INLINE uint8_t nrf_radio_pdustat_get(NRF_RADIO_Type const * p_reg);
-#endif // defined(RADIO_PDUSTAT_PDUSTAT_Msk) || defined(__NRFX_DOXYGEN__)
 
-#if defined(RADIO_PDUSTAT_CISTAT_Msk) || defined(__NRFX_DOXYGEN__)
 /**
  * @brief Function for getting status on what rate packet is received with in Long Range.
  *
@@ -542,7 +540,7 @@ NRF_STATIC_INLINE uint8_t nrf_radio_pdustat_get(NRF_RADIO_Type const * p_reg);
  * @retval 1 The frame is received at 500kbps.
  */
 NRF_STATIC_INLINE uint8_t nrf_radio_cistat_get(NRF_RADIO_Type const * p_reg);
-#endif // defined(RADIO_PDUSTAT_CISTAT_Msk) || defined(__NRFX_DOXYGEN__)
+#endif // defined(RADIO_PDUSTAT_PDUSTAT_Msk) || defined(__NRFX_DOXYGEN__)
 
 /**
  * @brief Function for setting packet pointer to given location in memory.
@@ -1053,7 +1051,10 @@ NRF_STATIC_INLINE uint32_t nrf_radio_task_address_get(NRF_RADIO_Type const * p_r
 NRF_STATIC_INLINE void nrf_radio_event_clear(NRF_RADIO_Type * p_reg, nrf_radio_event_t event)
 {
     *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event)) = 0x0UL;
-    nrf_event_readback((uint8_t *)p_reg + (uint32_t)event);
+#if __CORTEX_M == 0x04
+    volatile uint32_t dummy = *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event));
+    (void)dummy;
+#endif
 }
 
 NRF_STATIC_INLINE bool nrf_radio_event_check(NRF_RADIO_Type const * p_reg, nrf_radio_event_t event)
@@ -1128,14 +1129,12 @@ NRF_STATIC_INLINE uint8_t nrf_radio_pdustat_get(NRF_RADIO_Type const * p_reg)
 {
     return (uint8_t)(p_reg->PDUSTAT & RADIO_PDUSTAT_PDUSTAT_Msk);
 }
-#endif
 
-#if defined(RADIO_PDUSTAT_CISTAT_Msk)
 NRF_STATIC_INLINE uint8_t nrf_radio_cistat_get(NRF_RADIO_Type const * p_reg)
 {
     return (uint8_t)((p_reg->PDUSTAT & RADIO_PDUSTAT_CISTAT_Msk) >> RADIO_PDUSTAT_CISTAT_Pos);
 }
-#endif
+#endif // defined(RADIO_PDUSTAT_PDUSTAT_Msk)
 
 NRF_STATIC_INLINE void nrf_radio_packetptr_set(NRF_RADIO_Type * p_reg, void const * p_packet)
 {

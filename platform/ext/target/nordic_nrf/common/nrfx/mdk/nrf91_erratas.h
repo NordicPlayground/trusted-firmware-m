@@ -81,8 +81,6 @@ static bool nrf91_errata_1(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -107,8 +105,6 @@ static bool nrf91_errata_2(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }
@@ -135,8 +131,6 @@ static bool nrf91_errata_4(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -161,8 +155,6 @@ static bool nrf91_errata_6(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }
@@ -189,8 +181,6 @@ static bool nrf91_errata_7(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -215,8 +205,6 @@ static bool nrf91_errata_8(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return false;
-                    default:
                         return false;
                 }
             }
@@ -243,8 +231,6 @@ static bool nrf91_errata_9(void)
                         return false;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -269,8 +255,6 @@ static bool nrf91_errata_10(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return false;
-                    default:
                         return false;
                 }
             }
@@ -297,8 +281,6 @@ static bool nrf91_errata_12(void)
                         return true;
                     case 0x02ul:
                         return false;
-                    default:
-                        return false;
                 }
             }
         #endif
@@ -323,8 +305,6 @@ static bool nrf91_errata_14(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return false;
-                    default:
                         return false;
                 }
             }
@@ -351,8 +331,6 @@ static bool nrf91_errata_15(void)
                         return false;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -377,8 +355,6 @@ static bool nrf91_errata_16(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return false;
-                    default:
                         return false;
                 }
             }
@@ -405,8 +381,6 @@ static bool nrf91_errata_17(void)
                         return true;
                     case 0x02ul:
                         return false;
-                    default:
-                        return false;
                 }
             }
         #endif
@@ -431,8 +405,6 @@ static bool nrf91_errata_20(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return false;
-                    default:
                         return false;
                 }
             }
@@ -459,8 +431,6 @@ static bool nrf91_errata_21(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -485,8 +455,6 @@ static bool nrf91_errata_23(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }
@@ -513,8 +481,6 @@ static bool nrf91_errata_24(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -539,8 +505,6 @@ static bool nrf91_errata_26(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }
@@ -567,8 +531,6 @@ static bool nrf91_errata_27(void)
                         return false;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -593,8 +555,6 @@ static bool nrf91_errata_28(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }
@@ -621,8 +581,6 @@ static bool nrf91_errata_29(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -647,8 +605,6 @@ static bool nrf91_errata_30(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }
@@ -675,8 +631,6 @@ static bool nrf91_errata_31(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -702,8 +656,6 @@ static bool nrf91_errata_32(void)
                         return true;
                     case 0x02ul:
                         return true;
-                    default:
-                        return true;
                 }
             }
         #endif
@@ -728,8 +680,6 @@ static bool nrf91_errata_33(void)
                     case 0x01ul:
                         return true;
                     case 0x02ul:
-                        return true;
-                    default:
                         return true;
                 }
             }

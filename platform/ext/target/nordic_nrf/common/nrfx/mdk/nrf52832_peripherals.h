@@ -43,11 +43,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define POWER_COUNT 1
 
 #define POWER_FEATURE_RAM_REGISTERS_PRESENT
-#if defined(NRF52832_XXAA)
-    #define POWER_FEATURE_RAM_REGISTERS_COUNT 8
-#elif defined(NRF52832_XXAB)
-    #define POWER_FEATURE_RAM_REGISTERS_COUNT 4
-#endif
+#define POWER_FEATURE_RAM_REGISTERS_COUNT       8
 
 /* Non-Volatile Memory Controller */
 #define NVMC_PRESENT
@@ -83,20 +79,13 @@ POSSIBILITY OF SUCH DAMAGE.
 #define BPROT_PRESENT
 
 #define BPROT_REGIONS_SIZE 4096
-
-#if defined(NRF52832_XXAA)
-    #define BPROT_REGIONS_NUM 128
-#elif defined(NRF52832_XXAB)
-    #define BPROT_REGIONS_NUM 64
-#endif
+#define BPROT_REGIONS_NUM 128
 
 /* Radio */
 #define RADIO_PRESENT
 #define RADIO_COUNT 1
 
 #define RADIO_EASYDMA_MAXCNT_SIZE 8
-
-#define RADIO_TXPOWER_TXPOWER_Max RADIO_TXPOWER_TXPOWER_Pos4dBm
 
 /* Accelerated Address Resolver */
 #define AAR_PRESENT
