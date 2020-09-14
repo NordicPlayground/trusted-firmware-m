@@ -209,9 +209,7 @@ if (TFM_PARTITION_PROTECTED_STORAGE)
 endif()
 
 # Option to demonstrate usage of secure-only peripheral
-if (NOT DEFINED SECURE_UART1)
-  set (SECURE_UART1 OFF)
-endif()
+set (SECURE_UART1 OFF)
 
 if (PLATFORM_SVC_HANDLERS)
 	add_definitions(-DPLATFORM_SVC_HANDLERS)
