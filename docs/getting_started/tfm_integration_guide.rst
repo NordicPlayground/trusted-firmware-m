@@ -29,6 +29,8 @@ The hardware platforms currently supported are:
 - CoreLink SSE-200 Subsystem for MPS3 (AN524)
 - DesignStart FPGA on Cloud: Cortex-M33 based platform (SSE-200_AWS)
 - STM32L5xx: Cortex-M33 based platform (STM32L562 and STM32L552 socs)
+- nRF9160 DK (Cortex-M33)
+- nRF5340 PDK (Cortex-M33 application MCU)
 
 The files related to the supported platforms are contained under the
 ``platform`` subfolder. The platform specific files are under
